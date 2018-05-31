@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = 'http://localhost:8000';
+const baseURL = 'http://165.227.135.155:8000';
 
 export default {
     saveTest: data => axios.post(`${baseURL}/test`, data)
