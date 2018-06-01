@@ -66,6 +66,7 @@ class AddTest extends Component {
                     if(this.state.isLimited.value){
                         break;
                     }
+                // eslint-disable-next-line
                 default:
                     if(!this.state[field].regexp.test(this.state[field].value)){
                         this.setState({
@@ -91,21 +92,21 @@ class AddTest extends Component {
     };
     renderForm = () => (
         <Form onSubmit={this.save}>
-            <h1>New Test{this.state.name.value ? (`: ${this.state.name.value}`) : ''}</h1>
+            <h1>{this.props.l['New Test']}{this.state.name.value ? (`: ${this.state.name.value}`) : ''}</h1>
             <hr/>
             <FormGroup row>
-                <Label for="testName" sm={2}>Test name</Label>
+                <Label for="testName" sm={2}>{this.props.l['Test name']}</Label>
                 <Col sm={10}>
-                    <Input name="name" id="testName" placeholder="Your test's name"
+                    <Input name="name" id="testName" placeholder={this.props.l["Your test's name"]}
                            valid={this.state.name.valid}
                            invalid={this.state.name.valid !== null && !this.state.name.valid}
                            value={this.state.name.value} onChange={this.inputChangeHandler}/>
                 </Col>
             </FormGroup>
             <FormGroup row>
-                <Label for="testDescription" sm={2}>Description</Label>
+                <Label for="testDescription" sm={2}>{this.props.l['Description']}</Label>
                 <Col sm={10}>
-                    <Input type="textarea" name="description" id="testDescription" placeholder="Describe the test"
+                    <Input type="textarea" name="description" id="testDescription" placeholder={this.props.l['Describe the test']}
                            valid={this.state.description.valid}
                            invalid={this.state.description.valid !== null && !this.state.description.valid}
                            value={this.state.description.value} onChange={this.inputChangeHandler}/>
@@ -117,7 +118,7 @@ class AddTest extends Component {
                            valid={this.state.isPrivate.valid}
                            invalid={this.state.isPrivate.valid !== null && !this.state.isPrivate.valid}
                            onChange={this.checkboxChangeHandler} />{' '}
-                    Private test
+                    {this.props.l['Private test']}
                 </Label>
             </FormGroup>
             <FormGroup check>
@@ -126,12 +127,12 @@ class AddTest extends Component {
                            valid={this.state.isLimited.valid}
                            invalid={this.state.isLimited.valid !== null && !this.state.isLimited.valid}
                            onChange={this.checkboxChangeHandler} />{' '}
-                    Set time limit
+                    {this.props.l['Set time limit']}
                 </Label>
             </FormGroup>
             {this.state.isLimited.value ? (
                 <FormGroup row>
-                    <Label for="testTimeLimit" sm={2}>Time limit, sec</Label>
+                    <Label for="testTimeLimit" sm={2}>{this.props.l['Time limit, sec']}</Label>
                     <Col sm={10}>
                         <Input type="tel" name="timeLimit" id="timeLimit" placeholder="60"
                                valid={this.state.timeLimit.valid}
@@ -142,8 +143,8 @@ class AddTest extends Component {
             ) : null}
             <FormGroup row>
                 <Col>
-                    <Button color="warning">Save</Button>
-                    <Button className="float-right" onClick={this.props.toggle}>Close</Button>
+                    <Button color="warning">{this.props.l['Save']}</Button>
+                    <Button className="float-right" onClick={this.props.toggle}>{this.props.l['Close']}</Button>
                 </Col>
             </FormGroup>
         </Form>
@@ -158,7 +159,9 @@ class AddTest extends Component {
 }
 
 export const AddTestForm = connect(
-    null,
+    state => ({
+        l: state.lng._
+    }),
     dispatch => bindActionCreators({
         saveTest
     }, dispatch)

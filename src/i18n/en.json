@@ -1,0 +1,19 @@
+{
+  "Home": "Home",
+  "Tests": "Tests",
+  "About": "About",
+  "Language": "Language",
+  "english": "english",
+  "russian": "russian",
+  "New Test": "New Test",
+  "Test name": "Test name",
+  "Your test's name": "Your test's name",
+  "Description": "Description",
+  "Describe the test": "Describe the test",
+  "Private test": "Private test",
+  "Set time limit": "Set time limit",
+  "Time limit, sec": "Time limit, sec",
+  "Save": "Save",
+  "Close": "Close",
+  "Add new test": "Add new test"
+}

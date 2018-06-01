@@ -1,0 +1,19 @@
+{
+  "Home": "Главная",
+  "Tests": "Тесты",
+  "About": "О нас",
+  "Language": "Язык",
+  "english": "английский",
+  "russian": "русский",
+  "New Test": "Новый тест",
+  "Test name": "Название",
+  "Your test's name": "Название вашего теста",
+  "Description": "Описание",
+  "Describe the test": "Опишите тест",
+  "Private test": "Приватный тест",
+  "Set time limit": "Установить ограничение по времени",
+  "Time limit, sec": "Ограничение времени, сек",
+  "Save": "Сохранить",
+  "Close": "Закрыть",
+  "Add new test": "Добавить тест"
+}

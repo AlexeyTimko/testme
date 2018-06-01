@@ -1,15 +1,17 @@
 import React, {Component} from 'react';
 import Home from './home';
 import Tests from './tests';
-import About from './about';
 import './App.css';
-import {Link, Route} from "react-router-dom";
+import {Link, Route, withRouter} from "react-router-dom";
 import {
-    Collapse, Nav, Navbar, NavbarToggler, NavItem
+    Collapse, DropdownItem, DropdownMenu, DropdownToggle, Nav, Navbar, NavbarToggler, NavItem, UncontrolledDropdown
 } from "reactstrap";
 import FA from 'react-fontawesome';
+import {connect} from "react-redux";
+import {setLanguage} from "./actions";
+import {bindActionCreators} from "redux";
 
-export default class App extends Component{
+class App extends Component{
     state = {
         isOpen: false
     };
@@ -18,6 +20,7 @@ export default class App extends Component{
         isOpen: !this.state.isOpen
     });
     render(){
+        const l = this.props.lng._;
         return (
             <div className="container-fluid">
                 <header>
@@ -27,16 +30,25 @@ export default class App extends Component{
                             <FA name="ellipsis-v"/>
                         </NavbarToggler>
                         <Collapse isOpen={this.state.isOpen} navbar>
+                            <Nav navbar>
+                                <NavItem>
+                                    <Link to="/tests" className="nav-link">{l.Tests}</Link>
+                                </NavItem>
+                            </Nav>
                             <Nav className="ml-auto" navbar>
-                                <NavItem>
-                                    <Link to="/" className="nav-link">Home</Link>
-                                </NavItem>
-                                <NavItem>
-                                    <Link to="/tests" className="nav-link">Tests</Link>
-                                </NavItem>
-                                <NavItem>
-                                    <Link to="/about-us" className="nav-link">About</Link>
-                                </NavItem>
+                                <UncontrolledDropdown nav inNavbar>
+                                    <DropdownToggle nav caret>
+                                        {l.Language}
+                                    </DropdownToggle>
+                                    <DropdownMenu right>
+                                        <DropdownItem onClick={() => this.props.setLanguage('en')} active={this.props.lng.locale === 'en'}>
+                                            {l.english}
+                                        </DropdownItem>
+                                        <DropdownItem onClick={() => this.props.setLanguage('ru')} active={this.props.lng.locale === 'ru'}>
+                                            {l.russian}
+                                        </DropdownItem>
+                                    </DropdownMenu>
+                                </UncontrolledDropdown>
                             </Nav>
                         </Collapse>
                     </Navbar>
@@ -45,9 +57,17 @@ export default class App extends Component{
                 <main>
                     <Route exact path="/" component={Home} />
                     <Route exact path="/tests" component={Tests} />
-                    <Route exact path="/about-us" component={About} />
                 </main>
             </div>
         )
     }
 }
+
+export default withRouter(connect(
+    state => ({
+        lng: state.lng
+    }),
+    dispatch => bindActionCreators({
+        setLanguage
+    }, dispatch)
+)(App));

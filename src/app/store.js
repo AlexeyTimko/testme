@@ -4,13 +4,15 @@ import createHistory from 'history/createBrowserHistory'
 import createSagaMiddleware from 'redux-saga';
 import rootReducer from './reducer';
 import rootSaga from './sagas';
+import {localStorageMiddleware} from "../middlewares";
 
 export const history = createHistory();
 const sagaMiddleware = createSagaMiddleware();
 
 const middleware = [
     routerMiddleware(history),
-    sagaMiddleware
+    sagaMiddleware,
+    localStorageMiddleware
 ];
 
 const initialState = {};

@@ -1,3 +1,5 @@
+export const SET_LANGUAGE = 'SET_LANGUAGE';
+
 export const SAVE_TEST = 'SAVE_TEST';
 export const SAVE_TEST_SUCCEEDED = 'SAVE_TEST_SUCCEEDED';
 export const SAVE_TEST_FAILED = 'SAVE_TEST_FAILED';

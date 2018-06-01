@@ -38,12 +38,14 @@ class Tests extends Component {
     };
     render() {
         const {addForm} = this.state;
+        const {l} = this.props;
         return (
             <Container>
                 {!addForm.visible
                     && <div className="clearfix" style={{padding: ".5rem"}}>
-                        <Button className="float-right" color="danger" onClick={this.addFormToggle}>Add new
-                            test</Button>
+                        <Button className="float-right" color="danger" onClick={this.addFormToggle}>
+                            {l['Add new test']}
+                        </Button>
                     </div>}
                 <AddTestForm visible={addForm.visible} toggle={this.addFormToggle}/>
                 {
@@ -62,7 +64,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 
 export default connect(
     state => ({
-        list: state.tests
+        list: state.tests,
+        l: state.lng._
     }),
     mapDispatchToProps
 )(Tests)

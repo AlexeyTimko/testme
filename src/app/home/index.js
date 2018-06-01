@@ -8,12 +8,12 @@ const Home = props => (
     <div>
         <h1>Home</h1>
         <p>Welcome home!</p>
-        <Button color="primary" onClick={() => props.changePage()}>Go to about page via redux</Button>
+        <Button color="primary" onClick={() => props.changePage()}>Go to test page via redux</Button>
     </div>
 );
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    changePage: () => push('/about-us')
+    changePage: () => push('/tests')
 }, dispatch);
 
 export default connect(
