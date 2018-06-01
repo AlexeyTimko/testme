@@ -15,5 +15,12 @@
   "Time limit, sec": "Time limit, sec",
   "Save": "Save",
   "Close": "Close",
-  "Add new test": "Add new test"
+  "Add new test": "Add new test",
+  "Log In": "Log In",
+  "Sign Up": "Sign Up",
+  "Enter": "Enter",
+  "Register": "Register",
+  "Cancel": "Cancel",
+  "Password": "Password",
+  "Confirm password": "Confirm password"
 }

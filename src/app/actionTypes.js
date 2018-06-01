@@ -1,5 +1,12 @@
 export const SET_LANGUAGE = 'SET_LANGUAGE';
 
+export const LOG_IN = 'LOG_IN';
+export const LOG_IN_SUCCEEDED = 'LOG_IN_SUCCEEDED';
+export const LOG_IN_FAILED = 'LOG_IN_FAILED';
+export const REGISTER = 'REGISTER';
+export const REGISTER_SUCCEEDED = 'REGISTER_SUCCEEDED';
+export const REGISTER_FAILED = 'REGISTER_FAILED';
+
 export const SAVE_TEST = 'SAVE_TEST';
 export const SAVE_TEST_SUCCEEDED = 'SAVE_TEST_SUCCEEDED';
 export const SAVE_TEST_FAILED = 'SAVE_TEST_FAILED';
