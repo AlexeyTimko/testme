@@ -19,8 +19,14 @@
   "Log In": "Log In",
   "Sign Up": "Sign Up",
   "Enter": "Enter",
+  "Exit": "Exit",
   "Register": "Register",
   "Cancel": "Cancel",
   "Password": "Password",
-  "Confirm password": "Confirm password"
+  "Confirm password": "Confirm password",
+  "Network Error": "Network Error",
+  "Registration failed": "Registration failed",
+  "Registration successful": "Registration successful",
+  "Invalid data": "Invalid data",
+  "Log in failed": "Log in failed"
 }

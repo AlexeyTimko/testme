@@ -1,5 +1,4 @@
-import {SET_LANGUAGE} from "../app/actionTypes";
-import {setLanguage} from "../app/actions";
+import {LOG_IN_SUCCEEDED, LOG_OUT, SET_LANGUAGE} from "../app/actionTypes";
 
 export const localStorageMiddleware = store => next => action => {
     switch (action.type) {
@@ -8,16 +7,16 @@ export const localStorageMiddleware = store => next => action => {
                 localStorage.setItem('app-lang', action.locale);
             }
             break;
-        default:
-            if(!localStorage.getItem('app-lang')){
-                const langList = ['en','ru'];
-                let lang = navigator.language?navigator.language.substr(0,2):langList[0];
-                if(!lang || langList.indexOf(lang) < 0){
-                    lang = langList[0];
-                }
-                localStorage.setItem('app-lang', lang);
-                store.dispatch(setLanguage(lang));
+        case LOG_IN_SUCCEEDED:
+            if (localStorage.getItem('user-token') !== action.payload.token) {
+                localStorage.setItem('user-token', action.payload.token);
             }
+            break;
+        case LOG_OUT:
+            if (localStorage.getItem('user-token')) {
+                localStorage.removeItem('user-token');
+            }
+            break;
     }
     next(action);
 };

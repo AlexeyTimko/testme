@@ -12,3 +12,9 @@ export const logIn = (data) => {
         payload: data
     }
 };
+export const tokenAuth = token => {
+    return {
+        type: LOG_IN,
+        payload: {token}
+    }
+};

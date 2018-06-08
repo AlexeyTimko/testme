@@ -2,13 +2,19 @@ import React, {Component} from 'react';
 import Home from './home';
 import Tests from './tests';
 import './App.css';
-import {Route} from "react-router-dom";
+import {Route, withRouter} from "react-router-dom";
 import {TopMenu} from './components';
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {toggleFM} from "./actions";
+import {FlashMessage} from "./components";
 
-export default class App extends Component{
+class App extends Component{
     render(){
+        const {fm, l} = this.props;
         return (
             <div className="container-fluid">
+                <FlashMessage show={fm.show} color={fm.color} toggle={this.props.toggleFM}>{l[fm.message]||fm.message}</FlashMessage>
                 <TopMenu/>
                 <main>
                     <Route exact path="/" component={Home} />
@@ -18,3 +24,13 @@ export default class App extends Component{
         )
     }
 }
+
+export default  withRouter(connect(
+    state => ({
+        fm: state.fm,
+        l: state.lng._
+    }),
+    dispatch => bindActionCreators({
+        toggleFM
+    }, dispatch)
+)(App));

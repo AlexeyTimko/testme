@@ -16,3 +16,6 @@ li > .hidden-fa{
 li:hover > .hidden-fa{
   opacity: 1;
 }
+.modal-content > .alert{
+  margin-bottom: 0;
+}

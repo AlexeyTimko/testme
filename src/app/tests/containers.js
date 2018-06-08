@@ -141,7 +141,7 @@ class AddTest extends Component {
                     </Col>
                 </FormGroup>
             ) : null}
-            <FormGroup row>
+            <FormGroup row className="mt-3">
                 <Col>
                     <Button color="warning">{this.props.l['Save']}</Button>
                     <Button className="float-right" onClick={this.props.toggle}>{this.props.l['Close']}</Button>
