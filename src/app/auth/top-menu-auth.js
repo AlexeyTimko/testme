@@ -6,9 +6,9 @@ import {
 import {connect} from "react-redux";
 import AuthForm from './forms/auth';
 import RegistrationForm from './forms/registration';
-import {HIDE_AUTH_FORM, HIDE_REG_FORM, LOG_OUT, SHOW_AUTH_FORM, SHOW_REG_FORM} from "../actionTypes";
 import {bindActionCreators} from "redux";
 import FA from 'react-fontawesome';
+import {hideAuth, hideReg, logOut, showAuth, showReg} from "./actions";
 
 class TopMenuAuth extends Component{
     render() {
@@ -60,10 +60,10 @@ export default connect(
         auth: state.auth
     }),
     dispatch => bindActionCreators({
-        showAuth: () => ({type: SHOW_AUTH_FORM}),
-        hideAuth: () => ({type: HIDE_AUTH_FORM}),
-        showReg: () => ({type: SHOW_REG_FORM}),
-        hideReg: () => ({type: HIDE_REG_FORM}),
-        logOut: () => ({type: LOG_OUT}),
+        showAuth,
+        hideAuth,
+        showReg,
+        hideReg,
+        logOut,
     }, dispatch)
 )(TopMenuAuth);

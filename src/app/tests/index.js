@@ -5,6 +5,7 @@ import {Button, Container, ListGroup, ListGroupItem} from "reactstrap";
 import {AddTestForm} from "./containers";
 import {getTestList} from "./actions";
 import FA from 'react-fontawesome';
+import {showAuth} from "../auth/actions";
 
 const initialState = {
     addForm: {
@@ -14,13 +15,19 @@ const initialState = {
 
 class Tests extends Component {
     state = initialState;
-    addFormToggle = () => this.setState({
-        ...this.state,
-        addForm: {
-            ...this.state.addForm,
-            visible: !this.state.addForm.visible
+    addFormOpen = () => {
+        if(this.props.auth.user){
+            this.setState({
+                ...this.state,
+                addForm: {
+                    ...this.state.addForm,
+                    visible: true
+                }
+            });
+        } else {
+            this.props.showAuth();
         }
-    });
+    };
     renderTestList = () => (
         <ListGroup>
             {
@@ -43,11 +50,11 @@ class Tests extends Component {
             <Container>
                 {!addForm.visible
                     && <div className="clearfix" style={{padding: ".5rem"}}>
-                        <Button className="float-right" color="danger" onClick={this.addFormToggle}>
+                        <Button className="float-right" color="danger" onClick={this.addFormOpen}>
                             {l['Add new test']}
                         </Button>
                     </div>}
-                <AddTestForm visible={addForm.visible} toggle={this.addFormToggle}/>
+                <AddTestForm visible={addForm.visible} toggle={this.addFormOpen}/>
                 {
                     this.props.list.length > 0
                     && !addForm.visible
@@ -59,13 +66,15 @@ class Tests extends Component {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    getTestList
+    getTestList,
+    showAuth
 }, dispatch);
 
 export default connect(
     state => ({
         list: state.tests,
-        l: state.lng._
+        l: state.lng._,
+        auth: state.auth,
     }),
     mapDispatchToProps
 )(Tests)

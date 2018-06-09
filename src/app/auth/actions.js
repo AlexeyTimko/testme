@@ -1,4 +1,4 @@
-import {LOG_IN, REGISTER} from "../actionTypes";
+import {HIDE_AUTH_FORM, HIDE_REG_FORM, LOG_IN, LOG_OUT, REGISTER, SHOW_AUTH_FORM, SHOW_REG_FORM} from "../actionTypes";
 
 export const register = (data) => {
     return {
@@ -18,3 +18,8 @@ export const tokenAuth = token => {
         payload: {token}
     }
 };
+export const showAuth = () => ({type: SHOW_AUTH_FORM});
+export const hideAuth = () => ({type: HIDE_AUTH_FORM});
+export const showReg = () => ({type: SHOW_REG_FORM});
+export const hideReg = () => ({type: HIDE_REG_FORM});
+export const logOut = () => ({type: LOG_OUT});
