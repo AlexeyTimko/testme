@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {Button, Container, ListGroup, ListGroupItem} from "reactstrap";
+import {Button, Container} from "reactstrap";
 import {AddTestForm} from "./containers";
-import {getTestList} from "./actions";
-import FA from 'react-fontawesome';
+import TestList from './components/test-list';
 import {showAuth} from "../auth/actions";
 
 const initialState = {
@@ -35,21 +34,6 @@ class Tests extends Component {
             visible: false
         }
     });
-    renderTestList = () => (
-        <ListGroup>
-            {
-                this.props.list.map((test, i) => (
-                    <ListGroupItem key={i}>
-                        <FA name="play" className="text-success hidden-fa"/>{' '}
-                        {test.name}
-                    </ListGroupItem>
-                ))
-            }
-        </ListGroup>
-    );
-    componentDidMount = () => {
-        this.props.getTestList();
-    };
     render() {
         const {addForm} = this.state;
         const {l} = this.props;
@@ -61,27 +45,24 @@ class Tests extends Component {
                             {l['Add new test']}
                         </Button>
                     </div>}
-                <AddTestForm visible={addForm.visible} toggle={this.addFormClose}/>
                 {
-                    this.props.list.length > 0
-                    && !addForm.visible
-                    && this.renderTestList()
+                    (!addForm.visible) ? (
+                        <TestList />
+                    ) : (
+                        <AddTestForm visible={addForm.visible} toggle={this.addFormClose}/>
+                    )
                 }
             </Container>
         );
     }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-    getTestList,
-    showAuth
-}, dispatch);
-
 export default connect(
     state => ({
-        list: state.tests,
         l: state.lng._,
         auth: state.auth,
     }),
-    mapDispatchToProps
+    dispatch => bindActionCreators({
+        showAuth
+    }, dispatch)
 )(Tests)
