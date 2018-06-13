@@ -3,6 +3,7 @@ import {Button, Col, Form, FormGroup, Input, Label} from "reactstrap";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {saveTest} from "./actions";
+import FileUpload from '../components/file-upload';
 
 const initialState = {
     name: {
@@ -29,6 +30,11 @@ const initialState = {
         value: 0,
         regexp: /^[\d]+$/,
         valid: null
+    },
+    image: {
+        value: '',
+        regexp: /^.*$/,
+        valid: null
     }
 };
 
@@ -41,6 +47,15 @@ class AddTest extends Component {
                 ...this.state[event.target.name],
                 value: event.target.value,
                 valid: this.state[event.target.name].regexp.test(event.target.value)
+            }
+        });
+    };
+    imageChangeHandler = image => {
+        this.setState({
+            ...this.state,
+            image: {
+                ...this.state.image,
+                value: image
             }
         });
     };
@@ -110,6 +125,12 @@ class AddTest extends Component {
                            valid={this.state.description.valid}
                            invalid={this.state.description.valid !== null && !this.state.description.valid}
                            value={this.state.description.value} onChange={this.inputChangeHandler}/>
+                </Col>
+            </FormGroup>
+            <FormGroup row>
+                <Label for="testImage" sm={2}>{this.props.l['Image']}</Label>
+                <Col sm={10}>
+                    <FileUpload name="image" onChange={this.imageChangeHandler}/>
                 </Col>
             </FormGroup>
             <FormGroup check>

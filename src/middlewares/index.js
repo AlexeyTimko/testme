@@ -17,6 +17,7 @@ export const localStorageMiddleware = store => next => action => {
                 localStorage.removeItem('user-token');
             }
             break;
+        default:
     }
     next(action);
 };

@@ -28,6 +28,13 @@ class Tests extends Component {
             this.props.showAuth();
         }
     };
+    addFormClose = () => this.setState({
+        ...this.state,
+        addForm: {
+            ...this.state.addForm,
+            visible: false
+        }
+    });
     renderTestList = () => (
         <ListGroup>
             {
@@ -54,7 +61,7 @@ class Tests extends Component {
                             {l['Add new test']}
                         </Button>
                     </div>}
-                <AddTestForm visible={addForm.visible} toggle={this.addFormOpen}/>
+                <AddTestForm visible={addForm.visible} toggle={this.addFormClose}/>
                 {
                     this.props.list.length > 0
                     && !addForm.visible

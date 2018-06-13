@@ -28,5 +28,7 @@
   "Registration failed": "Registration failed",
   "Registration successful": "Registration successful",
   "Invalid data": "Invalid data",
-  "Log in failed": "Log in failed"
+  "Log in failed": "Log in failed",
+  "Upload file": "Upload file",
+  "Image": "Image"
 }

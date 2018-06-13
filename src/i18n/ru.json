@@ -28,5 +28,7 @@
   "Registration failed": "Ошибка регистрации",
   "Registration successful": "Успешно зарегистрирован",
   "Invalid data": "Некорректрные данные",
-  "Log in failed": "Не удалось войти"
+  "Log in failed": "Не удалось войти",
+  "Upload file": "Загрузить файл",
+  "Image": "Изображение"
 }
