@@ -1,0 +1,6 @@
+.tooltip>.tooltip-inner{
+    background-color: #17a2b8!important;
+}
+.tooltip>.arrow::before{
+    border-top-color: #17a2b8!important;
+}

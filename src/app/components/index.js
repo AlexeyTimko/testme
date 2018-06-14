@@ -1,5 +1,5 @@
 import topMenu from './top-menu';
-import topMenuAuth from '../auth/top-menu-auth';
+import topMenuAuth from '../auth/components/top-menu-auth';
 import flashMessage from './flash-message';
 
 export const TopMenu = topMenu;

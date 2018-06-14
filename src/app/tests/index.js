@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {Button, Container} from "reactstrap";
-import {AddTestForm} from "./containers";
+import TestAddForm from "./components/forms/test-add";
 import TestList from './components/test-list';
 import {showAuth} from "../auth/actions";
 
@@ -49,7 +49,7 @@ class Tests extends Component {
                     (!addForm.visible) ? (
                         <TestList />
                     ) : (
-                        <AddTestForm visible={addForm.visible} toggle={this.addFormClose}/>
+                        <TestAddForm visible={addForm.visible} close={this.addFormClose}/>
                     )
                 }
             </Container>

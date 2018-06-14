@@ -6,11 +6,17 @@ import axios from 'axios';
 const baseURL = 'http://test-me.com/api';
 
 class FileUpload extends Component{
-    state = {
-        selectedFile: null,
-        progress: 0,
-        image: null,
-    };
+    constructor(props){
+        super(props);
+        this.state = {
+            selectedFile: null,
+            progress: 0,
+            image: null,
+        };
+        if(props.value){
+            this.state.image = props.value;
+        }
+    }
     uploadClickHandler = () => {
         this.inputElement.click();
     };
@@ -50,7 +56,7 @@ class FileUpload extends Component{
                 <input ref={input => this.inputElement = input} type="file" style={{display: 'none'}}
                        name={this.props.name} onChange={this.uploadChangeHandler}/>
                 <Card>
-                    {this.state.image? (
+                    {this.state.image ? (
                         <CardImg top width="100%" src={`http://test-me.com/img/${this.state.image}`} />
                     ) : null}
                     <CardBody>

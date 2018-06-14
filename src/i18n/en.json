@@ -30,5 +30,13 @@
   "Invalid data": "Invalid data",
   "Log in failed": "Log in failed",
   "Upload file": "Upload file",
-  "Image": "Image"
+  "Image": "Image",
+  "Answers": "Answers",
+  "Answer": "Answer",
+  "Questions": "Questions",
+  "Question": "Question",
+  "Add": "Add",
+  "Edit": "Edit",
+  "Delete": "Delete",
+  "Weight": "Weight"
 }

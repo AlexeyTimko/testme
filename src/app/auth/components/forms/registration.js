@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {register} from "../actions";
+import {register} from "../../actions";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {Button, Col, FormGroup, Input, Label} from "reactstrap";

@@ -8,7 +8,7 @@ import AuthForm from './forms/auth';
 import RegistrationForm from './forms/registration';
 import {bindActionCreators} from "redux";
 import FA from 'react-fontawesome';
-import {hideAuth, hideReg, logOut, showAuth, showReg} from "./actions";
+import {hideAuth, hideReg, logOut, showAuth, showReg} from "../actions";
 
 class TopMenuAuth extends Component{
     render() {

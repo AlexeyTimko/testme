@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Button, Col, FormGroup, Input, Label} from "reactstrap";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {logIn} from "../actions";
+import {logIn} from "../../actions";
 
 class AuthForm extends Component {
     state = {
