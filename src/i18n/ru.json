@@ -29,6 +29,7 @@
   "Registration successful": "Успешно зарегистрирован",
   "Invalid data": "Некорректрные данные",
   "Saving failed": "Ошибка сохранения",
+  "Test saved": "Тест сохранен",
   "Log in failed": "Не удалось войти",
   "Upload file": "Загрузить файл",
   "Image": "Изображение",
@@ -40,5 +41,6 @@
   "Edit": "Редактировать",
   "Delete": "Удалить",
   "Weight": "Вес",
-  "Correct": "Верный"
+  "Correct": "Верный",
+  "More": "Подробнее"
 }

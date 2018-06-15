@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {ListGroup, ListGroupItem} from "reactstrap";
+import {Button, Card, CardBody, CardFooter, CardHeader, CardText} from "reactstrap";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {getTestList} from "../actions";
@@ -9,23 +9,39 @@ class TestList extends Component {
         this.props.getTestList();
     };
     render(){
-        return this.props.list.length ? (
-            <ListGroup>
+        const {l, list} = this.props;
+        return list.length ? (
+            <div>
                 {
-                    this.props.list.map((test, i) => (
-                        <ListGroupItem key={i}>
-                            {test.image?(<img className="mr-2" src={`http://test-me.com/img/${test.image}`} style={{height: '20px'}}/>):null}
-                            {test.name}
-                        </ListGroupItem>
+                    list.map((test, i) => (
+                        <Card key={i} className="mb-3">
+                            <CardHeader>{test.name}</CardHeader>
+                            <CardBody>
+                                <CardText className="text-justify" style={{"text-indent": "1rem"}}>
+                                    {
+                                        test.image
+                                            ?(
+                                                <img width="20%" className="mr-2 mb-2 pull-left" src={`http://test-me.com/img/${test.image}`} alt={test.name} />
+                                            )
+                                            :null
+                                    }
+                                    {test.description}
+                                </CardText>
+                            </CardBody>
+                            <CardFooter>
+                                <Button color="outline-info">{l['More']}</Button>
+                            </CardFooter>
+                        </Card>
                     ))
                 }
-            </ListGroup>
+            </div>
         ) : null;
     }
 }
 
 export default connect(
     state => ({
+        l: state.lng._,
         list: state.tests,
     }),
     dispatch => bindActionCreators({

@@ -12,11 +12,19 @@ function* showError(error) {
         payload: error.message
     });
 }
+function* showMessage(message) {
+    yield put({
+        type: OPEN_FLASH_MESSAGE,
+        color: 'success',
+        payload: message
+    });
+}
 
 function* saveTest(action) {
     try {
         const data = yield call(Api.saveTest, action.payload);
         yield put({type: SAVE_TEST_SUCCEEDED, payload: data});
+        yield call(showMessage, 'Test saved');
         yield put({type: GET_TEST_LIST});
     } catch (error) {
         yield put({type: SAVE_TEST_FAILED, error});

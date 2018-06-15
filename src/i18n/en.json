@@ -29,6 +29,7 @@
   "Registration successful": "Registration successful",
   "Invalid data": "Invalid data",
   "Saving failed": "Saving failed",
+  "Test saved": "Test saved",
   "Log in failed": "Log in failed",
   "Upload file": "Upload file",
   "Image": "Image",
@@ -40,5 +41,6 @@
   "Edit": "Edit",
   "Delete": "Delete",
   "Weight": "Weight",
-  "Correct": "Correct"
+  "Correct": "Correct",
+  "More": "More"
 }
