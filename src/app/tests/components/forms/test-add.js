@@ -35,7 +35,7 @@ class TestAdd extends Component {
                     valid: null
                 },
                 timeLimit: {
-                    value: 0,
+                    value: null,
                     regexp: /^[\d]+$/,
                     valid: null
                 },
@@ -97,7 +97,7 @@ class TestAdd extends Component {
             }
             switch (field) {
                 case 'timeLimit':
-                    if (this.state.fields.isLimited.value) {
+                    if (!this.state.fields.isLimited.value) {
                         break;
                     }
                 // eslint-disable-next-line
@@ -122,7 +122,20 @@ class TestAdd extends Component {
     save = event => {
         event.preventDefault();
         if (this.validate()) {
-            this.props.saveTest({...this.state.fields});
+            let data = {
+                token: this.props.auth.token,
+                questions: this.state.questions
+            };
+            for(let field in this.state.fields){
+                if(!this.state.fields.hasOwnProperty(field)){
+                    continue;
+                }
+                data[field] = this.state.fields[field].value;
+            }
+            if(!data.timeLimit){
+                data.timeLimit = 0;
+            }
+            this.props.saveTest(data);
             this.props.close();
         }
     };
@@ -198,7 +211,7 @@ class TestAdd extends Component {
                         </FormGroup>
                         <FormGroup check>
                             <Label check>
-                                <Input type="checkbox" id="testIsPrivate" name="isPrivate"
+                                <Input type="checkbox" id="testIsPrivate" name="isPrivate" checked={this.state.fields.isPrivate.value}
                                        valid={this.state.fields.isPrivate.valid}
                                        invalid={this.state.fields.isPrivate.valid !== null && !this.state.fields.isPrivate.valid}
                                        onChange={this.checkboxChangeHandler}/>{' '}
@@ -207,25 +220,20 @@ class TestAdd extends Component {
                         </FormGroup>
                         <FormGroup check>
                             <Label check>
-                                <Input type="checkbox" id="testIsLimited" name="isLimited"
+                                <Input type="checkbox" id="testIsLimited" name="isLimited" checked={this.state.fields.isLimited.value}
                                        valid={this.state.fields.isLimited.valid}
                                        invalid={this.state.fields.isLimited.valid !== null && !this.state.fields.isLimited.valid}
                                        onChange={this.checkboxChangeHandler}/>{' '}
                                 {l['Set time limit']}
                             </Label>
+                            {this.state.fields.isLimited.value ? (
+                                <Input type="tel" name="timeLimit" id="timeLimit" placeholder="60"
+                                       valid={this.state.fields.timeLimit.valid}
+                                       invalid={this.state.fields.timeLimit.valid !== null && !this.state.fields.timeLimit.valid}
+                                       value={this.state.fields.timeLimit.value}
+                                       onChange={this.inputChangeHandler}/>
+                            ) : null}
                         </FormGroup>
-                        {this.state.fields.isLimited.value ? (
-                            <FormGroup row>
-                                <Label for="testTimeLimit" sm={2}>{l['Time limit, sec']}</Label>
-                                <Col sm={10}>
-                                    <Input type="tel" name="timeLimit" id="timeLimit" placeholder="60"
-                                           valid={this.state.fields.timeLimit.valid}
-                                           invalid={this.state.fields.timeLimit.valid !== null && !this.state.fields.timeLimit.valid}
-                                           value={this.state.fields.timeLimit.value}
-                                           onChange={this.inputChangeHandler}/>
-                                </Col>
-                            </FormGroup>
-                        ) : null}
                         <fieldset>
                             <legend>{l['Questions']}</legend>
                             <QuestionList items={this.state.questions} onEdit={this.editQuestion}
@@ -258,7 +266,8 @@ class TestAdd extends Component {
 
 export default connect(
     state => ({
-        l: state.lng._
+        l: state.lng._,
+        auth: state.auth
     }),
     dispatch => bindActionCreators({
         saveTest

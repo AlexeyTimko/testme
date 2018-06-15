@@ -12,6 +12,11 @@ class Answer extends Component {
                     regexp: /^.+$/,
                     valid: null,
                 },
+                correct: {
+                    value: false,
+                    regexp: /^.*$/,
+                    valid: null
+                },
             }
         };
         if(props.answer){
@@ -32,6 +37,20 @@ class Answer extends Component {
                     ...this.state.fields[event.target.name],
                     value: event.target.value,
                     valid: this.state.fields[event.target.name].regexp.test(event.target.value)
+                }
+            }
+        });
+    };
+    checkboxChangeHandler = event => {
+        let val = event.target.checked;
+        this.setState({
+            ...this.state,
+            fields: {
+                ...this.state.fields,
+                [event.target.name]: {
+                    ...this.state.fields[event.target.name],
+                    value: val,
+                    valid: this.state.fields[event.target.name].regexp.test(val)
                 }
             }
         });
@@ -88,6 +107,15 @@ class Answer extends Component {
                                invalid={this.state.fields.text.valid !== null && !this.state.fields.text.valid}
                                value={this.state.fields.text.value} onChange={this.inputChangeHandler}/>
                     </Col>
+                </FormGroup>
+                <FormGroup check>
+                    <Label check>
+                        <Input type="checkbox" id="aCorrect" name="correct" checked={this.state.fields.correct.value}
+                               valid={this.state.fields.correct.valid}
+                               invalid={this.state.fields.correct.valid !== null && !this.state.fields.correct.valid}
+                               onChange={this.checkboxChangeHandler}/>{' '}
+                        {l['Correct']}
+                    </Label>
                 </FormGroup>
                 <FormGroup row className="mt-3">
                     <Col>

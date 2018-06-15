@@ -171,6 +171,17 @@ class Question extends Component {
             }
         });
     };
+    correctChange = i => {
+        let answers = [...this.state.fields.answers];
+        answers[i].correct = !answers[i].correct;
+        this.setState({
+            ...this.state,
+            fields: {
+                ...this.state.fields,
+                answers
+            }
+        });
+    };
     render(){
         const {l} = this.props;
         return (
@@ -204,7 +215,7 @@ class Question extends Component {
                     <fieldset>
                         <legend>{l['Answers']}</legend>
                         <AnswerList items={this.state.fields.answers} onEdit={this.editAnswer}
-                                    onDelete={this.deleteAnswer}/>
+                                    onDelete={this.deleteAnswer} onCorrectChange={this.correctChange}/>
                         <FA name="plus" size="2x" className="text-success mt-1" id="add-answer"
                             style={{cursor: 'pointer'}} onClick={this.openAnswer}/>
                         <Tooltip target="add-answer">{l['Add']}</Tooltip>

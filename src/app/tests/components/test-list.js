@@ -14,6 +14,7 @@ class TestList extends Component {
                 {
                     this.props.list.map((test, i) => (
                         <ListGroupItem key={i}>
+                            {test.image?(<img className="mr-2" src={`http://test-me.com/img/${test.image}`} style={{height: '20px'}}/>):null}
                             {test.name}
                         </ListGroupItem>
                     ))
