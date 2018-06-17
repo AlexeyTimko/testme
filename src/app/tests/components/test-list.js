@@ -1,23 +1,42 @@
 import React, {Component} from 'react';
-import {Button, Card, CardBody, CardFooter, CardHeader, CardText} from "reactstrap";
+import {Card, CardBody, CardHeader, CardText} from "reactstrap";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {getTestList} from "../actions";
+import {Link, withRouter} from "react-router-dom";
+import FA from 'react-fontawesome';
+import {Tooltip} from '../../components';
 
 class TestList extends Component {
     componentDidMount = () => {
         this.props.getTestList();
     };
+    edit = i => {
+        this.props.onEdit(this.props.list[i].id);
+    };
     render(){
-        const {l, list} = this.props;
+        const {list, auth} = this.props;
         return list.length ? (
             <div>
                 {
                     list.map((test, i) => (
                         <Card key={i} className="mb-3">
-                            <CardHeader>{test.name}</CardHeader>
+                            <CardHeader>
+                                <Link to={`/tests/${test.id}`}>{test.name}</Link>
+                                {
+                                    (auth.user && test.user === auth.user.id)
+                                        ? (
+                                            <span>
+                                                <FA name="edit" onClick={() => this.edit(i)} id={`edit-${i}`}
+                                                    className="text-warning pull-right mr-1 mt-1"
+                                                    style={{cursor: 'pointer'}}/>
+                                                <Tooltip target={`edit-${i}`}>Edit</Tooltip>
+                                            </span>
+                                        ) : null
+                                }
+                            </CardHeader>
                             <CardBody>
-                                <CardText className="text-justify" style={{"text-indent": "1rem"}}>
+                                <CardText className="text-justify clearfix" style={{textIndent: "1rem"}}>
                                     {
                                         test.image
                                             ?(
@@ -28,9 +47,6 @@ class TestList extends Component {
                                     {test.description}
                                 </CardText>
                             </CardBody>
-                            <CardFooter>
-                                <Button color="outline-info">{l['More']}</Button>
-                            </CardFooter>
                         </Card>
                     ))
                 }
@@ -39,12 +55,13 @@ class TestList extends Component {
     }
 }
 
-export default connect(
+export default withRouter(connect(
     state => ({
         l: state.lng._,
         list: state.tests,
+        auth: state.auth
     }),
     dispatch => bindActionCreators({
         getTestList
     }, dispatch)
-)(TestList)
+)(TestList));

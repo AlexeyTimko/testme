@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Home from './home';
 import Tests from './tests';
+import Test from  './tests/components/test';
 import './App.css';
 import {Route, withRouter} from "react-router-dom";
 import {TopMenu} from './components';
@@ -19,6 +20,7 @@ class App extends Component{
                 <main>
                     <Route exact path="/" component={Home} />
                     <Route exact path="/tests" component={Tests} />
+                    <Route path="/tests/:id" component={Test} />
                 </main>
             </div>
         )

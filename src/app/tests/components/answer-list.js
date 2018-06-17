@@ -7,7 +7,7 @@ export default props => props.items.length ? (
     <ListGroup>
         {props.items.map((item, i) => (
             <ListGroupItem key={i}>
-                <Input type="checkbox" style={{"margin-left": "-.90rem"}}
+                <Input type="checkbox" style={{marginLeft: "-.90rem"}}
                        checked={item.correct} onChange={()=>props.onCorrectChange(i)}/>{' '}
                 {item.text}
                 <FA name="minus" onClick={()=>props.onDelete(i)} id={`delete-${i}`}

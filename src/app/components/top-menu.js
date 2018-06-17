@@ -20,7 +20,7 @@ class TopMenu extends Component{
     render(){
         const l = this.props.lng._;
         return (
-            <Navbar color="light" light expand="md">
+            <Navbar color="light" light expand="md" sticky="top">
                 <Link to="/" className="navbar-brand text-danger">TestMe</Link>
                 <NavbarToggler onClick={this.toggle} >
                     <FA name="ellipsis-v"/>

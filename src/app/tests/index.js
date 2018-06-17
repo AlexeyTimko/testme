@@ -2,54 +2,60 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {Button, Container} from "reactstrap";
-import TestAddForm from "./components/forms/test-add";
+import TestEditForm from "./components/forms/test-edit";
 import TestList from './components/test-list';
 import {showAuth} from "../auth/actions";
-
-const initialState = {
-    addForm: {
-        visible: false
-    }
-};
+import {resetTest} from "./actions";
 
 class Tests extends Component {
-    state = initialState;
-    addFormOpen = () => {
+    constructor(props){
+        super(props);
+        this.state = {
+            editForm: {
+                visible: false,
+                isNew: true,
+                id: null
+            }
+        };
+    }
+    editFormOpen = (id = null) => {
         if(this.props.auth.user){
             this.setState({
                 ...this.state,
-                addForm: {
-                    ...this.state.addForm,
-                    visible: true
+                editForm: {
+                    ...this.state.editForm,
+                    visible: true,
+                    id
                 }
             });
         } else {
             this.props.showAuth();
         }
     };
-    addFormClose = () => this.setState({
+    editFormClose = () => this.setState({
         ...this.state,
-        addForm: {
-            ...this.state.addForm,
-            visible: false
+        editForm: {
+            ...this.state.editForm,
+            visible: false,
+            id: null
         }
-    });
+    }, () => this.props.resetTest());
     render() {
-        const {addForm} = this.state;
+        const {editForm} = this.state;
         const {l} = this.props;
         return (
             <Container>
-                {!addForm.visible
+                {!editForm.visible
                     && <div className="clearfix" style={{padding: ".5rem"}}>
-                        <Button className="float-right" color="danger" onClick={this.addFormOpen}>
+                        <Button className="float-right" color="danger" onClick={this.editFormOpen}>
                             {l['Add new test']}
                         </Button>
                     </div>}
                 {
-                    (!addForm.visible) ? (
-                        <TestList />
+                    (!editForm.visible) ? (
+                        <TestList onEdit={this.editFormOpen} />
                     ) : (
-                        <TestAddForm visible={addForm.visible} close={this.addFormClose}/>
+                        <TestEditForm testId={editForm.id} visible={editForm.visible} close={this.editFormClose}/>
                     )
                 }
             </Container>
@@ -63,6 +69,7 @@ export default connect(
         auth: state.auth,
     }),
     dispatch => bindActionCreators({
-        showAuth
+        showAuth,
+        resetTest
     }, dispatch)
 )(Tests)

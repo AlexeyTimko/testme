@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = 'http://test-me.com/api'
+const baseURL = 'http://test-me.com/api';
 
 const respHandler = res => {
     if(res.data.result && res.data.result === 'error'){
@@ -21,6 +21,16 @@ export default {
             throw err;
         }),
     saveTest: data => axios.post(`${baseURL}/test`, data)
+        .then(respHandler)
+        .catch(err => {
+            throw err;
+        }),
+    loadTest: id => axios.get(`${baseURL}/test/${id}`, {})
+        .then(respHandler)
+        .catch(err => {
+            throw err;
+        }),
+    answerTest: data => axios.post(`${baseURL}/test/answer`, data)
         .then(respHandler)
         .catch(err => {
             throw err;

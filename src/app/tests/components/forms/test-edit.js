@@ -2,92 +2,93 @@ import React, {Component} from 'react';
 import {Button, Col, Form, FormGroup, Input, Label, Modal, ModalBody, ModalHeader} from "reactstrap";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {saveTest} from "../../actions";
+import {loadTest, saveTest, updateTest} from "../../actions";
 import FileUpload from '../../../components/file-upload';
 import Tooltip from '../../../components/tooltip';
 import FA from 'react-fontawesome';
 import QuestionList from '../question-list';
 import Question from './question';
 
-class TestAdd extends Component {
+class TestEdit extends Component {
     constructor(props){
         super(props);
         this.state = {
             fields: {
                 name: {
-                    value: '',
                     regexp: /^.{3,}$/,
                     valid: null
                 },
                 description: {
-                    value: '',
                     regexp: /^.*$/,
                     valid: null
                 },
-                isPrivate: {
-                    value: false,
+                isprivate: {
                     regexp: /^.*$/,
                     valid: null
                 },
-                isLimited: {
-                    value: false,
+                islimited: {
                     regexp: /^.*$/,
                     valid: null
                 },
-                timeLimit: {
-                    value: null,
+                timelimit: {
                     regexp: /^[\d]+$/,
                     valid: null
                 },
                 image: {
-                    value: '',
                     regexp: /^.*$/,
                     valid: null
                 },
             },
-            questions: [],
             questionOpen: false,
+            isNew: true,
             currentQuestion: null
         };
+        if(props.testId > 0){
+            this.state.isNew = false;
+            props.loadTest(props.testId);
+        }
     }
     inputChangeHandler = event => {
+        const field = event.target.name,
+            val = event.target.value;
         this.setState({
             ...this.state,
             fields: {
                 ...this.state.fields,
-                [event.target.name]: {
-                    ...this.state.fields[event.target.name],
-                    value: event.target.value,
-                    valid: this.state.fields[event.target.name].regexp.test(event.target.value)
+                [field]: {
+                    ...this.state.fields[field],
+                    valid: this.state.fields[field].regexp.test(val)
                 }
             }
-        });
+        },
+            () => this.props.updateTest({
+                ...this.props.test,
+                [field]: val
+            })
+        );
     };
     imageChangeHandler = image => {
-        this.setState({
-            ...this.state,
-            fields: {
-                ...this.state.fields,
-                image: {
-                    ...this.state.fields.image,
-                    value: image
-                }
-            }
+        this.props.updateTest({
+            ...this.props.test,
+            image
         });
     };
     checkboxChangeHandler = event => {
-        let val = event.target.checked;
+        const field = event.target.name,
+            val = event.target.checked;
         this.setState({
             ...this.state,
             fields: {
                 ...this.state.fields,
-                [event.target.name]: {
-                    ...this.state.fields[event.target.name],
-                    value: val,
-                    valid: this.state.fields[event.target.name].regexp.test(val)
+                [field]: {
+                    ...this.state.fields[field],
+                    valid: this.state.fields[field].regexp.test(val)
                 }
             }
-        });
+        }, () => this.props.updateTest({
+            ...this.props.test,
+            [field]: val
+        }));
     };
     validate = () => {
         let valid = true;
@@ -97,12 +98,12 @@ class TestAdd extends Component {
             }
             switch (field) {
                 case 'timeLimit':
-                    if (!this.state.fields.isLimited.value) {
+                    if (!this.props.test.isLimited) {
                         break;
                     }
                 // eslint-disable-next-line
                 default:
-                    if (!this.state.fields[field].regexp.test(this.state.fields[field].value)) {
+                    if (!this.state.fields[field].regexp.test(this.props.test[field])) {
                         this.setState({
                             ...this.state,
                             fields: {
@@ -123,18 +124,9 @@ class TestAdd extends Component {
         event.preventDefault();
         if (this.validate()) {
             let data = {
-                token: this.props.auth.token,
-                questions: this.state.questions
+                ...this.props.test,
+                token: this.props.auth.token
             };
-            for(let field in this.state.fields){
-                if(!this.state.fields.hasOwnProperty(field)){
-                    continue;
-                }
-                data[field] = this.state.fields[field].value;
-            }
-            if(!data.timeLimit){
-                data.timeLimit = 0;
-            }
             this.props.saveTest(data);
             this.props.close();
         }
@@ -147,10 +139,10 @@ class TestAdd extends Component {
         });
     };
     deleteQuestion = i => {
-        let questions = this.state.questions;
+        let questions = this.props.test.questions;
         questions.splice(i, 1);
-        this.setState({
-            ...this.state,
+        this.props.updateTest({
+            ...this.props.test,
             questions
         });
     };
@@ -164,7 +156,7 @@ class TestAdd extends Component {
         questionOpen: true
     });
     saveQuestion = question => {
-        let questions = this.state.questions;
+        let questions = this.props.test.questions;
         if(this.state.currentQuestion !== null){
             questions[this.state.currentQuestion] = question
         }else{
@@ -172,17 +164,19 @@ class TestAdd extends Component {
         }
         this.setState({
             ...this.state,
-            currentQuestion: null,
+            currentQuestion: null
+        }, () => this.props.updateTest({
+            ...this.props.test,
             questions
-        });
+        }));
     };
     render() {
-        const {l} = this.props;
-        return this.props.visible
+        const {l, test} = this.props;
+        return (!this.state.isNew && test.id) || this.state.isNew
             ? (
                 <div>
                     <Form onSubmit={this.save}>
-                        <h1>{l['New Test']}{this.state.fields.name.value ? (`: ${this.state.fields.name.value}`) : ''}</h1>
+                        <h1>{test.name || l['New Test']}</h1>
                         <hr/>
                         <FormGroup row>
                             <Label for="testName" sm={2}>{l['Test name']}</Label>
@@ -190,7 +184,7 @@ class TestAdd extends Component {
                                 <Input name="name" id="testName" placeholder={l["Your test's name"]}
                                        valid={this.state.fields.name.valid}
                                        invalid={this.state.fields.name.valid !== null && !this.state.fields.name.valid}
-                                       value={this.state.fields.name.value} onChange={this.inputChangeHandler}/>
+                                       value={test.name} onChange={this.inputChangeHandler}/>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
@@ -200,43 +194,43 @@ class TestAdd extends Component {
                                        placeholder={l['Describe the test']}
                                        valid={this.state.fields.description.valid}
                                        invalid={this.state.fields.description.valid !== null && !this.state.fields.description.valid}
-                                       value={this.state.fields.description.value} onChange={this.inputChangeHandler}/>
+                                       value={test.description} onChange={this.inputChangeHandler}/>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
                             <Label for="testImage" sm={2}>{l['Image']}</Label>
                             <Col sm={10}>
-                                <FileUpload name="image" onChange={this.imageChangeHandler}/>
+                                <FileUpload name="image" value={test.image} onChange={this.imageChangeHandler}/>
                             </Col>
                         </FormGroup>
                         <FormGroup check>
                             <Label check>
-                                <Input type="checkbox" id="testIsPrivate" name="isPrivate" checked={this.state.fields.isPrivate.value}
-                                       valid={this.state.fields.isPrivate.valid}
-                                       invalid={this.state.fields.isPrivate.valid !== null && !this.state.fields.isPrivate.valid}
+                                <Input type="checkbox" id="testIsPrivate" name="isprivate" checked={test.isprivate}
+                                       valid={this.state.fields.isprivate.valid}
+                                       invalid={this.state.fields.isprivate.valid !== null && !this.state.fields.isprivate.valid}
                                        onChange={this.checkboxChangeHandler}/>{' '}
                                 {l['Private test']}
                             </Label>
                         </FormGroup>
                         <FormGroup check>
                             <Label check>
-                                <Input type="checkbox" id="testIsLimited" name="isLimited" checked={this.state.fields.isLimited.value}
-                                       valid={this.state.fields.isLimited.valid}
-                                       invalid={this.state.fields.isLimited.valid !== null && !this.state.fields.isLimited.valid}
+                                <Input type="checkbox" id="testIsLimited" name="islimited" checked={test.islimited}
+                                       valid={this.state.fields.islimited.valid}
+                                       invalid={this.state.fields.islimited.valid !== null && !this.state.fields.islimited.valid}
                                        onChange={this.checkboxChangeHandler}/>{' '}
                                 {l['Set time limit']}
                             </Label>
-                            {this.state.fields.isLimited.value ? (
-                                <Input type="tel" name="timeLimit" id="timeLimit" placeholder="60"
-                                       valid={this.state.fields.timeLimit.valid}
-                                       invalid={this.state.fields.timeLimit.valid !== null && !this.state.fields.timeLimit.valid}
-                                       value={this.state.fields.timeLimit.value}
+                            {test.islimited ? (
+                                <Input type="tel" name="timelimit" id="timeLimit" placeholder="60"
+                                       valid={this.state.fields.timelimit.valid}
+                                       invalid={this.state.fields.timelimit.valid !== null && !this.state.fields.timelimit.valid}
+                                       value={test.timelimit}
                                        onChange={this.inputChangeHandler}/>
                             ) : null}
                         </FormGroup>
                         <fieldset>
                             <legend>{l['Questions']}</legend>
-                            <QuestionList items={this.state.questions} onEdit={this.editQuestion}
+                            <QuestionList items={test.questions} onEdit={this.editQuestion}
                                           onDelete={this.deleteQuestion}/>
                             <FA name="plus" size="2x" className="text-success mt-1" id="add-question"
                                 style={{cursor: 'pointer'}} onClick={this.openQuestion}/>
@@ -254,7 +248,7 @@ class TestAdd extends Component {
                         <ModalBody>
                             <Question onSave={this.saveQuestion} close={this.hideQuestion}
                                       question={this.state.currentQuestion !== null
-                                          ? this.state.questions[this.state.currentQuestion]
+                                          ? test.questions[this.state.currentQuestion]
                                           : null}/>
                         </ModalBody>
                     </Modal>
@@ -267,9 +261,12 @@ class TestAdd extends Component {
 export default connect(
     state => ({
         l: state.lng._,
-        auth: state.auth
+        auth: state.auth,
+        test: state.test
     }),
     dispatch => bindActionCreators({
-        saveTest
+        saveTest,
+        loadTest,
+        updateTest
     }, dispatch)
-)(TestAdd);
+)(TestEdit);

@@ -11,7 +11,7 @@
   "Description": "Description",
   "Describe the test": "Describe the test",
   "Private test": "Private test",
-  "Set time limit": "Set time limit",
+  "Set time limit": "Set time limit, sec",
   "Time limit, sec": "Time limit, sec",
   "Save": "Save",
   "Close": "Close",
@@ -42,5 +42,10 @@
   "Delete": "Delete",
   "Weight": "Weight",
   "Correct": "Correct",
-  "More": "More"
+  "More": "More",
+  "Test not found": "Test not found",
+  "Start test": "Start test",
+  "Result": "Result",
+  "Try again": "Try again",
+  "Finish": "Finish"
 }
