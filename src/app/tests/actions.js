@@ -1,4 +1,7 @@
-import {ANSWER_TEST, GET_TEST_LIST, LOAD_TEST, RESET_TEST, SAVE_TEST, UPDATE_TEST} from "../actionTypes";
+import {
+    ANSWER_TEST, EDIT_FORM_CLOSE, EDIT_FORM_OPEN, GET_TEST_LIST, LOAD_TEST, RESET_TEST, SAVE_TEST, SEARCH,
+    UPDATE_TEST
+} from "../actionTypes";
 
 export const saveTest = (data) => {
     return {
@@ -17,6 +20,17 @@ export const resetTest = () => {
         type: RESET_TEST
     }
 };
+export const editFormOpen = (id = null) => {
+    return {
+        type: EDIT_FORM_OPEN,
+        payload: id
+    }
+};
+export const editFormClose = () => {
+    return {
+        type: EDIT_FORM_CLOSE
+    }
+};
 export const answerTest = (data) => {
     return {
         type: ANSWER_TEST,
@@ -29,9 +43,15 @@ export const loadTest = id => {
         payload: id
     }
 };
-export const getTestList = () => {
+export const getTestList = params => {
     return {
         type: GET_TEST_LIST,
-        payload: {}
+        payload: params
+    }
+};
+export const search = param => {
+    return {
+        type: SEARCH,
+        payload: {search: param}
     }
 };

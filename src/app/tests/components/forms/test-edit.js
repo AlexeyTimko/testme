@@ -19,7 +19,7 @@ class TestEdit extends Component {
                     valid: null
                 },
                 description: {
-                    regexp: /^.*$/,
+                    regexp: /^[^]*$/,
                     valid: null
                 },
                 isprivate: {
@@ -128,7 +128,6 @@ class TestEdit extends Component {
                 token: this.props.auth.token
             };
             this.props.saveTest(data);
-            this.props.close();
         }
     };
     editQuestion = i => {

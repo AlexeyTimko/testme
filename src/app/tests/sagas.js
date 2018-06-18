@@ -1,7 +1,7 @@
 import Api from '../../api';
 import { all, takeEvery, call, put } from 'redux-saga/effects';
 import {
-    ANSWER_TEST, ANSWER_TEST_RESULT,
+    ANSWER_TEST, ANSWER_TEST_RESULT, EDIT_FORM_CLOSE,
     GET_TEST_LIST,
     GET_TEST_LIST_FAILED,
     GET_TEST_LIST_SUCCEEDED,
@@ -9,7 +9,7 @@ import {
     OPEN_FLASH_MESSAGE, RESET_TEST,
     SAVE_TEST,
     SAVE_TEST_FAILED,
-    SAVE_TEST_SUCCEEDED
+    SAVE_TEST_SUCCEEDED, SEARCH
 } from "../actionTypes";
 
 function* showError(error) {
@@ -32,7 +32,7 @@ function* saveTest(action) {
         const data = yield call(Api.saveTest, action.payload);
         yield put({type: SAVE_TEST_SUCCEEDED, payload: data});
         yield call(showMessage, 'Test saved');
-        yield put({type: GET_TEST_LIST});
+        yield put({type: EDIT_FORM_CLOSE});
     } catch (error) {
         yield put({type: SAVE_TEST_FAILED, error});
         yield call(showError, error);
@@ -84,11 +84,24 @@ function* watchAnswerTes() {
     yield takeEvery(ANSWER_TEST, answerTest);
 }
 
+function* search(action) {
+    try {
+        yield put({type: GET_TEST_LIST, payload: action.payload});
+    } catch (error) {
+        yield call(showError, error);
+    }
+}
+
+function* watchSearch() {
+    yield takeEvery(SEARCH, search);
+}
+
 export default function* testSaga() {
     yield all([
         watchSaveTest(),
         watchLoadTes(),
         watchAnswerTes(),
-        watchGetTestList()
+        watchGetTestList(),
+        watchSearch()
     ])
 }

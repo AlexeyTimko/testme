@@ -1,7 +1,11 @@
 import React, {Component} from 'react';
 import {Link, withRouter} from "react-router-dom";
 import {
-    Collapse, DropdownItem, DropdownMenu, DropdownToggle, Nav, Navbar, NavbarToggler, NavItem, UncontrolledDropdown
+    Collapse, DropdownItem, DropdownMenu, DropdownToggle, Nav,
+    Navbar,
+    NavbarToggler,
+    NavItem,
+    UncontrolledDropdown
 } from "reactstrap";
 import FA from 'react-fontawesome';
 import {connect} from "react-redux";

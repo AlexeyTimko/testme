@@ -47,5 +47,9 @@
   "Start test": "Start test",
   "Result": "Result",
   "Try again": "Try again",
-  "Finish": "Finish"
+  "Finish": "Finish",
+  "My tests": "My tests",
+  "Search": "Search",
+  "Time left": "Time left",
+  "This param shows question difficulty. It will be used when calculate result.": "This param shows question difficulty. It will be used when calculate result."
 }

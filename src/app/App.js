@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Home from './home';
 import Tests from './tests';
 import Test from  './tests/components/test';
+import MyTests from  './my/tests';
 import './App.css';
 import {Route, withRouter} from "react-router-dom";
 import {TopMenu} from './components';
@@ -19,6 +20,7 @@ class App extends Component{
                 <TopMenu/>
                 <main>
                     <Route exact path="/" component={Home} />
+                    <Route exact path="/my/tests" component={MyTests} />
                     <Route exact path="/tests" component={Tests} />
                     <Route path="/tests/:id" component={Test} />
                 </main>

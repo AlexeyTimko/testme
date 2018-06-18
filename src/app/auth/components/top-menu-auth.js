@@ -9,6 +9,7 @@ import RegistrationForm from './forms/registration';
 import {bindActionCreators} from "redux";
 import FA from 'react-fontawesome';
 import {hideAuth, hideReg, logOut, showAuth, showReg} from "../actions";
+import { push } from 'react-router-redux';
 
 class TopMenuAuth extends Component{
     render() {
@@ -20,6 +21,11 @@ class TopMenuAuth extends Component{
                         {auth.user.email}
                     </DropdownToggle>
                     <DropdownMenu right>
+                        <DropdownItem onClick={this.props.toMyTests} className="text-secondary">
+                            <FA name="book"/>{' '}
+                            {l['My tests']}
+                        </DropdownItem>
+                        <DropdownItem divider/>
                         <DropdownItem onClick={this.props.logOut} className="text-info">
                             <FA name="sign-out"/>{' '}
                             {l['Exit']}
@@ -65,5 +71,6 @@ export default connect(
         showReg,
         hideReg,
         logOut,
+        toMyTests: ()=>push('/my/tests'),
     }, dispatch)
 )(TopMenuAuth);

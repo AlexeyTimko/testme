@@ -47,5 +47,9 @@
   "Start test": "Начать",
   "Result": "Результат",
   "Try again": "Повторить",
-  "Finish": "Закончить"
+  "Finish": "Закончить",
+  "My tests": "Мои тесты",
+  "Search": "Поиск",
+  "Time left": "Оставшееся время",
+  "This param shows question difficulty. It will be used when calculate result.": "Этот параметр показывает сложность вопроса. Он будет использоваться при вычислении результата."
 }

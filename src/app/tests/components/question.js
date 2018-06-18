@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Card, CardBody, CardHeader, CardImg, CardTitle, FormGroup, Input, Label} from "reactstrap";
 import FA from 'react-fontawesome';
+import config from '../../config';
 
 export default class Question extends Component {
     constructor(props){
@@ -29,7 +30,7 @@ export default class Question extends Component {
                 <CardHeader>{test.name}</CardHeader>
                 <CardBody>
                     {item.text?(<CardTitle className="text-justify clearfix" style={{textIndent: "1rem"}}>{item.text}</CardTitle>):null}
-                    {item.image?(<CardImg src={`http://test-me.com/img/${item.image}`}/>):null}
+                    {item.image?(<CardImg src={`${config.host}/img/${item.image}`}/>):null}
                     <hr/>
                     {item.answers.map(answer => (
                         <FormGroup key={answer.id} check>

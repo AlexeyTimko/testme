@@ -6,11 +6,17 @@ import {getTestList} from "../actions";
 import {Link, withRouter} from "react-router-dom";
 import FA from 'react-fontawesome';
 import {Tooltip} from '../../components';
+import config from '../../config';
 
 class TestList extends Component {
-    componentDidMount = () => {
-        this.props.getTestList();
-    };
+    constructor(props){
+        super(props);
+        let params = {};
+        if(props.auth.user && props.hasOwnProperty('my')){
+            params.user = props.auth.user.id
+        }
+        this.props.getTestList(params);
+    }
     edit = i => {
         this.props.onEdit(this.props.list[i].id);
     };
@@ -40,7 +46,7 @@ class TestList extends Component {
                                     {
                                         test.image
                                             ?(
-                                                <img width="20%" className="mr-2 mb-2 pull-left" src={`http://test-me.com/img/${test.image}`} alt={test.name} />
+                                                <img width="20%" className="mr-2 mb-2 pull-left" src={`${config.host}/img/${test.image}`} alt={test.name} />
                                             )
                                             :null
                                     }

@@ -13,7 +13,7 @@ class Result extends Component {
         else if(pct > 50) color = 'info';
         else if(pct > 25) color = 'warning';
         return (
-            <Card>
+            <Card className="mt-2">
                 <CardHeader>{test.name}</CardHeader>
                 <CardBody>
                     <CardTitle className={`text-center`}>{l['Result']}</CardTitle>

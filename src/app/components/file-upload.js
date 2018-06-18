@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import {Button, Card, CardBody, CardImg, Progress} from "reactstrap";
 import {connect} from "react-redux";
 import axios from 'axios';
+import config from '../config';
 
-const baseURL = 'http://test-me.com/api';
+const baseURL = `${config.host}/api`;
 
 class FileUpload extends Component{
     constructor(props){
@@ -57,7 +58,7 @@ class FileUpload extends Component{
                        name={this.props.name} onChange={this.uploadChangeHandler}/>
                 <Card>
                     {this.state.image ? (
-                        <CardImg top width="100%" src={`http://test-me.com/img/${this.state.image}`} />
+                        <CardImg top width="100%" src={`${config.host}/img/${this.state.image}`} />
                     ) : null}
                     <CardBody>
                         {this.state.progress > 0? (

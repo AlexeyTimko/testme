@@ -14,7 +14,7 @@ class Question extends Component {
             fields: {
                 text: {
                     value: '',
-                    regexp: /^.*$/,
+                    regexp: /^[^]*$/,
                     valid: null,
                 },
                 image: {
@@ -204,7 +204,11 @@ class Question extends Component {
                         </Col>
                     </FormGroup>
                     <FormGroup row>
-                        <Label for="qWeight" sm={4}>{l['Weight']}</Label>
+                        <Label for="qWeight" sm={4}>
+                            {l['Weight']}{' '}
+                            <FA name="question" className="text-info" id="weight-help"/>
+                            <Tooltip target="weight-help">{l['This param shows question difficulty. It will be used when calculate result.']}</Tooltip>
+                        </Label>
                         <Col sm={8}>
                             <Input type="tel" name="weight" id="qWeight"
                                    valid={this.state.fields.weight.valid}

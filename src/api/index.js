@@ -1,6 +1,7 @@
 import axios from 'axios';
+import config from '../app/config';
 
-const baseURL = 'http://test-me.com/api';
+const baseURL = `${config.host}/api`;
 
 const respHandler = res => {
     if(res.data.result && res.data.result === 'error'){
@@ -35,9 +36,19 @@ export default {
         .catch(err => {
             throw err;
         }),
-    getTestList: () => axios.get(`${baseURL}/test`)
-        .then(respHandler)
-        .catch(err => {
-            throw err;
-        })
+    getTestList: params => {
+        let url = `${baseURL}/test`, query = [];
+        for(let i in params){
+            if(!params.hasOwnProperty(i)) continue;
+            query.push(`${i}=${params[i]}`);
+        }
+        if(query.length){
+            url += `?${query.join('&')}`;
+        }
+        return axios.get(url)
+            .then(respHandler)
+            .catch(err => {
+                throw err;
+            });
+    }
 }

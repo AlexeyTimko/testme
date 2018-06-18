@@ -51,8 +51,10 @@ function* logIn(action) {
             yield call(showError, {message: data.error});
         }
     } catch (error) {
-        yield put({type: LOG_IN_FAILED, error});
-        yield call(showError,error);
+        if(!action.payload.token){
+            yield put({type: LOG_IN_FAILED, error});
+            yield call(showError,error);
+        }
     }
 }
 

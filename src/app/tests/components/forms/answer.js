@@ -9,7 +9,7 @@ class Answer extends Component {
             fields: {
                 text: {
                     value: '',
-                    regexp: /^.+$/,
+                    regexp: /^[^]+$/,
                     valid: null,
                 },
                 correct: {
