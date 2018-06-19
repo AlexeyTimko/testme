@@ -1,3 +1,3 @@
 export default {
-    host: 'http://test-me.com'
+    host: 'http://test.spard.net'
 }

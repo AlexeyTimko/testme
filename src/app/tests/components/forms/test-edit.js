@@ -204,15 +204,6 @@ class TestEdit extends Component {
                         </FormGroup>
                         <FormGroup check>
                             <Label check>
-                                <Input type="checkbox" id="testIsPrivate" name="isprivate" checked={test.isprivate}
-                                       valid={this.state.fields.isprivate.valid}
-                                       invalid={this.state.fields.isprivate.valid !== null && !this.state.fields.isprivate.valid}
-                                       onChange={this.checkboxChangeHandler}/>{' '}
-                                {l['Private test']}
-                            </Label>
-                        </FormGroup>
-                        <FormGroup check>
-                            <Label check>
                                 <Input type="checkbox" id="testIsLimited" name="islimited" checked={test.islimited}
                                        valid={this.state.fields.islimited.valid}
                                        invalid={this.state.fields.islimited.valid !== null && !this.state.fields.islimited.valid}

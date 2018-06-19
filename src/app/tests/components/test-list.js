@@ -11,12 +11,36 @@ import config from '../../config';
 class TestList extends Component {
     constructor(props){
         super(props);
+        this.GAP = 200;
         let params = {};
         if(props.auth.user && props.hasOwnProperty('my')){
             params.user = props.auth.user.id
         }
+        this.state = {
+            ...params,
+            page: 1
+        };
         this.props.getTestList(params);
     }
+    componentDidMount = () => {
+        window.addEventListener('scroll', this.handleScroll, false);
+    };
+    componentWillUnmount = () => {
+        window.removeEventListener('scroll', this.handleScroll, false);
+    };
+    handleScroll = () => {
+        // const { handleScroll, rootRef } = this;
+        // const { innerHeight, scrollY } = window;
+        // const { offsetTop, scrollHeight } = rootRef;
+        // const {page} = this.state;
+        // if (
+        //     innerHeight + scrollY > (offsetTop + scrollHeight) - this.GAP &&
+        //     itemsCurrentPage !== itemsLastPage &&
+        //     !itemsRequested
+        // ) {
+        //     fetchItems(itemsCurrentPage + 1).then(handleScroll);
+        // }
+    };
     edit = i => {
         this.props.onEdit(this.props.list[i].id);
     };
@@ -32,10 +56,13 @@ class TestList extends Component {
             this.props.deleteTest(params);
         }
     };
+    setRootRef = element => {
+        this.rootRef = element;
+    };
     render(){
         const {list, auth} = this.props;
         return list.length ? (
-            <div>
+            <div ref={this.setRootRef}>
                 {
                     list.map((test, i) => (
                         <Card key={i} className="mb-3">
