@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Card, CardBody, CardHeader, CardText} from "reactstrap";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {getTestList} from "../actions";
+import {deleteTest, getTestList} from "../actions";
 import {Link, withRouter} from "react-router-dom";
 import FA from 'react-fontawesome';
 import {Tooltip} from '../../components';
@@ -20,6 +20,18 @@ class TestList extends Component {
     edit = i => {
         this.props.onEdit(this.props.list[i].id);
     };
+    deleteTest = i => {
+        if(window.confirm(this.props.l['Are you sure?'])){
+            let params = {
+                id: this.props.list[i].id,
+                token: this.props.auth.token
+            };
+            if(this.props.auth.user && this.props.hasOwnProperty('my')){
+                params.user = this.props.auth.user.id
+            }
+            this.props.deleteTest(params);
+        }
+    };
     render(){
         const {list, auth} = this.props;
         return list.length ? (
@@ -33,6 +45,10 @@ class TestList extends Component {
                                     (auth.user && test.user === auth.user.id)
                                         ? (
                                             <span>
+                                                <FA name="minus" onClick={() => this.deleteTest(i)} id={`delete-${i}`}
+                                                    className="text-danger pull-right mr-1 mt-1"
+                                                    style={{cursor: 'pointer'}}/>
+                                                <Tooltip target={`delete-${i}`}>Delete</Tooltip>
                                                 <FA name="edit" onClick={() => this.edit(i)} id={`edit-${i}`}
                                                     className="text-warning pull-right mr-1 mt-1"
                                                     style={{cursor: 'pointer'}}/>
@@ -68,6 +84,7 @@ export default withRouter(connect(
         auth: state.auth
     }),
     dispatch => bindActionCreators({
-        getTestList
+        getTestList,
+        deleteTest,
     }, dispatch)
 )(TestList));

@@ -1,7 +1,7 @@
 import Api from '../../api';
 import { all, takeEvery, call, put } from 'redux-saga/effects';
 import {
-    ANSWER_TEST, ANSWER_TEST_RESULT, EDIT_FORM_CLOSE,
+    ANSWER_TEST, ANSWER_TEST_RESULT, DELETE_TEST, EDIT_FORM_CLOSE,
     GET_TEST_LIST,
     GET_TEST_LIST_FAILED,
     GET_TEST_LIST_SUCCEEDED,
@@ -96,12 +96,26 @@ function* watchSearch() {
     yield takeEvery(SEARCH, search);
 }
 
+function* deleteTest(action) {
+    try {
+        yield call(Api.deleteTest, action.payload);
+        yield put({type: GET_TEST_LIST, payload: action.payload});
+    } catch (error) {
+        yield call(showError, error);
+    }
+}
+
+function* watchDeleteTest() {
+    yield takeEvery(DELETE_TEST, deleteTest);
+}
+
 export default function* testSaga() {
     yield all([
         watchSaveTest(),
         watchLoadTes(),
         watchAnswerTes(),
         watchGetTestList(),
-        watchSearch()
+        watchSearch(),
+        watchDeleteTest(),
     ])
 }

@@ -1,5 +1,5 @@
 import {
-    ANSWER_TEST, EDIT_FORM_CLOSE, EDIT_FORM_OPEN, GET_TEST_LIST, LOAD_TEST, RESET_TEST, SAVE_TEST, SEARCH,
+    ANSWER_TEST, DELETE_TEST, EDIT_FORM_CLOSE, EDIT_FORM_OPEN, GET_TEST_LIST, LOAD_TEST, RESET_TEST, SAVE_TEST, SEARCH,
     UPDATE_TEST
 } from "../actionTypes";
 
@@ -34,6 +34,12 @@ export const editFormClose = () => {
 export const answerTest = (data) => {
     return {
         type: ANSWER_TEST,
+        payload: data
+    }
+};
+export const deleteTest = (data) => {
+    return {
+        type: DELETE_TEST,
         payload: data
     }
 };

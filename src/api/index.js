@@ -36,6 +36,15 @@ export default {
         .catch(err => {
             throw err;
         }),
+    deleteTest: data => axios.delete(`${baseURL}/test/${data.id}`, {
+        params: {
+            token: data.token
+        }
+    })
+        .then(respHandler)
+        .catch(err => {
+            throw err;
+        }),
     getTestList: params => {
         let url = `${baseURL}/test`, query = [];
         for(let i in params){
