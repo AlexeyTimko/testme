@@ -8,7 +8,7 @@ import {showAuth} from "../../auth/actions";
 import {editFormClose, editFormOpen, resetTest} from "../../tests/actions";
 import {push} from 'react-router-redux';
 import AddIcon from '@material-ui/icons/Add';
-import {Tooltip, Button} from "@material-ui/core/es/index";
+import {Tooltip, Button} from "@material-ui/core";
 
 class MyTests extends Component {
     constructor(props) {

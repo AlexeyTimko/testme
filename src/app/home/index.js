@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Button } from "reactstrap";
 import {openFM} from "../actions";
 import * as icons from '@material-ui/icons';
-import {Grid, Input, Paper} from "@material-ui/core/es/index";
+import {Grid, Input, Paper} from "@material-ui/core";
 
 class Home extends Component {
     state = {

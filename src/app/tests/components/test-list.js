@@ -7,8 +7,8 @@ import {Link, withRouter} from "react-router-dom";
 import {ConfirmDialog} from '../../components';
 import config from '../../config';
 import {Paper} from "@material-ui/core";
-import {Edit, Remove} from "@material-ui/icons/es/index";
-import {IconButton, Tooltip} from "@material-ui/core/es/index";
+import {Edit, Remove} from "@material-ui/icons";
+import {IconButton, Tooltip} from "@material-ui/core";
 
 class TestList extends Component {
     constructor(props){
