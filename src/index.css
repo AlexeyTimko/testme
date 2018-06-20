@@ -19,3 +19,8 @@ li:hover > .hidden-fa{
 .modal-content > .alert{
   margin-bottom: 0;
 }
+button:focus,input:focus,select:focus,textarea.focus{
+  outline: none;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}

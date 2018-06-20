@@ -52,5 +52,7 @@
   "Search": "Search",
   "Time left": "Time left",
   "Are you sure?": "Are you sure?",
-  "This param shows question difficulty. It will be used when calculate result.": "This param shows question difficulty. It will be used when calculate result."
+  "This param shows question difficulty. It will be used when calculate result.": "This param shows question difficulty. It will be used when calculate result.",
+  "Yes": "Yes",
+  "Confirm action": "Confirm action"
 }

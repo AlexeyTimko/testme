@@ -1,5 +1,6 @@
 import {
-    ANSWER_TEST, DELETE_TEST, EDIT_FORM_CLOSE, EDIT_FORM_OPEN, GET_TEST_LIST, LOAD_TEST, RESET_TEST, SAVE_TEST, SEARCH,
+    ANSWER_TEST, DELETE_TEST, EDIT_FORM_CLOSE, EDIT_FORM_OPEN, GET_TEST_LIST, LOAD_TEST, NEXT_PAGE, RESET_TEST,
+    SAVE_TEST, SEARCH,
     UPDATE_TEST
 } from "../actionTypes";
 
@@ -52,6 +53,12 @@ export const loadTest = id => {
 export const getTestList = params => {
     return {
         type: GET_TEST_LIST,
+        payload: params
+    }
+};
+export const nextPage = params => {
+    return {
+        type: NEXT_PAGE,
         payload: params
     }
 };

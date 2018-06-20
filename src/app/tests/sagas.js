@@ -5,7 +5,7 @@ import {
     GET_TEST_LIST,
     GET_TEST_LIST_FAILED,
     GET_TEST_LIST_SUCCEEDED,
-    LOAD_TEST, LOAD_TEST_FAILED, LOAD_TEST_SUCCEEDED,
+    LOAD_TEST, LOAD_TEST_FAILED, LOAD_TEST_SUCCEEDED, NEXT_PAGE, NEXT_PAGE_LOADED, NEXT_PAGE_LOADING,
     OPEN_FLASH_MESSAGE, RESET_TEST,
     SAVE_TEST,
     SAVE_TEST_FAILED,
@@ -109,6 +109,20 @@ function* watchDeleteTest() {
     yield takeEvery(DELETE_TEST, deleteTest);
 }
 
+function* nextPage(action) {
+    try {
+        yield put({type: NEXT_PAGE_LOADING});
+        const data = yield call(Api.getTestList, action.payload);
+        yield put({type: NEXT_PAGE_LOADED, payload: data});
+    } catch (error) {
+        yield call(showError, error);
+    }
+}
+
+function* watchNextPage() {
+    yield takeEvery(NEXT_PAGE, nextPage);
+}
+
 export default function* testSaga() {
     yield all([
         watchSaveTest(),
@@ -117,5 +131,6 @@ export default function* testSaga() {
         watchGetTestList(),
         watchSearch(),
         watchDeleteTest(),
+        watchNextPage(),
     ])
 }

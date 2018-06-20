@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {search} from "../tests/actions";
 import { push } from 'react-router-redux';
+import {Paper} from "@material-ui/core";
 
 class Search extends Component {
     constructor(props) {
@@ -34,15 +35,17 @@ class Search extends Component {
     render() {
         const {l} = this.props;
         return (
-            <InputGroup style={{width: "auto"}} className="my-3">
-                <InputGroupAddon addonType="prepend">
-                    <InputGroupText onClick={this.search}>
-                        <FA name="search"/>
-                    </InputGroupText>
-                </InputGroupAddon>
-                <Input onChange={this.inputChangeHandler} onKeyPress={this.keyPressHandler}
-                       placeholder={l['Search']} value={this.state.search}/>
-            </InputGroup>
+            <Paper ref={this.setRootRef} style={{padding: '1rem'}} className={'mb-3'} elevation={4}>
+                <InputGroup style={{width: "auto"}}>
+                    <InputGroupAddon addonType="prepend">
+                        <InputGroupText onClick={this.search}>
+                            <FA name="search"/>
+                        </InputGroupText>
+                    </InputGroupAddon>
+                    <Input onChange={this.inputChangeHandler} onKeyPress={this.keyPressHandler}
+                           placeholder={l['Search']} value={this.state.search}/>
+                </InputGroup>
+            </Paper>
         );
     }
 }

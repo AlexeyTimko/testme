@@ -21,6 +21,9 @@ export const RESET_TEST = 'RESET_TEST';
 export const ANSWER_TEST = 'ANSWER_TEST';
 export const ANSWER_TEST_RESULT = 'ANSWER_TEST_RESULT';
 export const SEARCH = 'SEARCH';
+export const NEXT_PAGE = 'NEXT_PAGE';
+export const NEXT_PAGE_LOADED = 'NEXT_PAGE_LOADED';
+export const NEXT_PAGE_LOADING = 'NEXT_PAGE_LOADING';
 
 export const EDIT_FORM_OPEN = 'EDIT_FORM_OPEN';
 export const EDIT_FORM_CLOSE = 'EDIT_FORM_CLOSE';

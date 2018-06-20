@@ -10,12 +10,14 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {toggleFM} from "./actions";
 import {FlashMessage} from "./components";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 class App extends Component{
     render(){
         const {fm, l} = this.props;
         return (
             <div className="container-fluid">
+                <CssBaseline />
                 <FlashMessage show={fm.show} color={fm.color} toggle={this.props.toggleFM}>{l[fm.message]||fm.message}</FlashMessage>
                 <TopMenu/>
                 <main>

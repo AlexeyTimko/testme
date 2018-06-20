@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
 import {routerReducer} from 'react-router-redux';
-import {editForm, test, tests} from "./tests/reducers";
+import {editForm, pagination, test, tests} from "./tests/reducers";
 import lang from '../i18n';
 import {CLOSE_FLASH_MESSAGE, OPEN_FLASH_MESSAGE, SET_LANGUAGE, TOGGLE_FLASH_MESSAGE} from "./actionTypes";
 import {auth} from "./auth/reducers";
@@ -50,6 +50,7 @@ export default combineReducers({
     routing: routerReducer,
     auth,
     editForm,
+    pagination,
     tests,
     test,
     lng,

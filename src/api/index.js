@@ -46,15 +46,8 @@ export default {
             throw err;
         }),
     getTestList: params => {
-        let url = `${baseURL}/test`, query = [];
-        for(let i in params){
-            if(!params.hasOwnProperty(i)) continue;
-            query.push(`${i}=${params[i]}`);
-        }
-        if(query.length){
-            url += `?${query.join('&')}`;
-        }
-        return axios.get(url)
+        let url = `${baseURL}/test`;
+        return axios.get(url, {params})
             .then(respHandler)
             .catch(err => {
                 throw err;

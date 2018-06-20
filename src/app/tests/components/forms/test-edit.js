@@ -8,6 +8,7 @@ import Tooltip from '../../../components/tooltip';
 import FA from 'react-fontawesome';
 import QuestionList from '../question-list';
 import Question from './question';
+import {Paper} from "@material-ui/core";
 
 class TestEdit extends Component {
     constructor(props){
@@ -173,7 +174,7 @@ class TestEdit extends Component {
         const {l, test} = this.props;
         return (!this.state.isNew && test.id) || this.state.isNew
             ? (
-                <div>
+                <Paper style={{padding: '1rem'}} elevation={4}>
                     <Form onSubmit={this.save}>
                         <h1>{test.name || l['New Test']}</h1>
                         <hr/>
@@ -242,7 +243,7 @@ class TestEdit extends Component {
                                           : null}/>
                         </ModalBody>
                     </Modal>
-                </div>
+                </Paper>
             )
             : null;
     }
