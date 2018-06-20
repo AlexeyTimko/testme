@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button } from "reactstrap";
 import {openFM} from "../actions";
-import * as icons from '@material-ui/icons';
+import {Remove, Edit} from '@material-ui/icons';
 import {Grid, Input, Paper} from "@material-ui/core";
 
 class Home extends Component {
@@ -13,6 +13,7 @@ class Home extends Component {
         search: ''
     };
     renderIcons = () => {
+        const icons = {Remove, Edit};
         let iconsArr = [];
         for (let icon in icons){
             if(icon.indexOf(this.state.search) < 0) continue;
