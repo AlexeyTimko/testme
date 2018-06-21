@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button } from "reactstrap";
 import {openFM} from "../actions";
-import {Remove, Edit} from '@material-ui/icons';
+import * as icons from '@material-ui/icons';
 import {Grid, Input, Paper} from "@material-ui/core";
 
 class Home extends Component {
@@ -13,13 +13,12 @@ class Home extends Component {
         search: ''
     };
     renderIcons = () => {
-        const icons = {Remove, Edit};
         let iconsArr = [];
         for (let icon in icons){
-            if(icon.indexOf(this.state.search) < 0) continue;
+            if(icon.toLowerCase().indexOf(this.state.search.toLowerCase()) < 0) continue;
             const Icon = icons[icon];
             iconsArr.push((
-                <Grid item xs>
+                <Grid item xs key={icon}>
                     <Paper className={'p-3 text-center'}>
                         <Icon color="primary"/><br/>
                         {icon}
@@ -41,10 +40,17 @@ class Home extends Component {
                 <Button color="success mr-3" onClick={()=>this.props.openFM('success', 'success flash message')}>alert</Button>
                 <Button color="danger" onClick={()=>this.props.openFM('danger', 'danger flash message')}>alert</Button>
                 <br/>
-                <Input onChange={event=>this.setState({
-                    ...this.state,
-                    search: event.target.value
-                })} value={this.state.search} placeholder={this.props.l['Search']}/>
+                <Paper style={{
+                    padding: '1rem',
+                    margin: '.5rem auto',
+                    textAlign: 'center',
+                    width: '50%',
+                }}>
+                    <Input onChange={event=>this.setState({
+                        ...this.state,
+                        search: event.target.value
+                    })} value={this.state.search} placeholder={this.props.l['Search']}/>
+                </Paper>
                 <Grid container spacing={8} className={'m-2'}>
                     {this.renderIcons()}
                 </Grid>

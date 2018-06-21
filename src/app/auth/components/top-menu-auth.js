@@ -1,76 +1,87 @@
-import React, {Component} from 'react';
-import {
-    Button, DropdownItem, DropdownMenu, DropdownToggle, Modal, ModalBody, ModalHeader, Nav, NavItem,
-    UncontrolledDropdown
-} from "reactstrap";
+import React, {Component, Fragment} from 'react';
 import {connect} from "react-redux";
-import AuthForm from './forms/auth';
-import RegistrationForm from './forms/registration';
 import {bindActionCreators} from "redux";
-import FA from 'react-fontawesome';
-import {hideAuth, hideReg, logOut, showAuth, showReg} from "../actions";
+import {logOut, showAuth, showReg} from "../actions";
 import { push } from 'react-router-redux';
+import {Avatar, Button, ListItemIcon, ListItemText, Menu, MenuItem, withStyles} from "@material-ui/core/es/index";
+import {deepPurple} from "@material-ui/core/colors";
+import {LibraryBooks} from "@material-ui/icons/es/index";
+
+const styles = theme => ({
+    button: {
+        margin: theme.spacing.unit
+    },
+    purpleAvatar: {
+        margin: 10,
+        color: '#fff',
+        backgroundColor: deepPurple[500],
+        cursor: 'pointer'
+    }
+});
 
 class TopMenuAuth extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            menu: null
+        };
+    }
+
+    menuOpen = event => this.setState({
+        ...this.state,
+        menu: event.currentTarget
+    });
+
+    menuClose = event => this.setState({
+        ...this.state,
+        menu: null
+    });
     render() {
-        const {l, auth} = this.props;
-        return this.props.auth.user ? (
-            <Nav className="ml-auto" navbar>
-                <UncontrolledDropdown nav inNavbar>
-                    <DropdownToggle nav caret className="text-info">
-                        {auth.user.email}
-                    </DropdownToggle>
-                    <DropdownMenu right>
-                        <DropdownItem onClick={this.props.toMyTests} className="text-secondary">
-                            <FA name="book"/>{' '}
-                            {l['My tests']}
-                        </DropdownItem>
-                        <DropdownItem divider/>
-                        <DropdownItem onClick={this.props.logOut} className="text-info">
-                            <FA name="sign-out"/>{' '}
-                            {l['Exit']}
-                        </DropdownItem>
-                    </DropdownMenu>
-                </UncontrolledDropdown>
-            </Nav>
+        const {l, auth, classes, logOut, toMyTests} = this.props;
+        const {menu} = this.state;
+        return auth.user ? (
+            <Fragment>
+                <Avatar className={classes.purpleAvatar} onClick={this.menuOpen}>
+                    {auth.user.email[0].toUpperCase()}
+                </Avatar>
+                <Menu anchorEl={menu}
+                      open={!!menu}
+                      onClose={this.menuClose}
+                      onClick={this.menuClose}
+                >
+                    <MenuItem onClick={toMyTests}>
+                        <ListItemIcon>
+                            <LibraryBooks />
+                        </ListItemIcon>
+                        <ListItemText primary={l['My tests']} />
+                    </MenuItem>
+                    <MenuItem onClick={logOut}>
+                        <ListItemText primary={l['Exit']} />
+                    </MenuItem>
+                </Menu>
+            </Fragment>
         ): (
-            <Nav className="ml-auto" navbar>
-                <NavItem>
-                    <Button color="outline-success" className="my-2 my-sm-0 mr-1"
-                            onClick={this.props.showAuth}><FA name="sign-in"/>{' '}{l['Log In']}</Button>
-                </NavItem>
-                <NavItem>
-                    <Button color="primary" className="my-2 my-sm-0"
-                            onClick={this.props.showReg}>{l['Sign Up']}</Button>
-                </NavItem>
-                <Modal isOpen={auth.authShow} toggle={this.props.hideAuth}>
-                    <ModalHeader toggle={this.props.hideAuth}>{l['Log In']}</ModalHeader>
-                    <ModalBody>
-                        <AuthForm/>
-                    </ModalBody>
-                </Modal>
-                <Modal isOpen={auth.regShow} toggle={this.props.hideReg}>
-                    <ModalHeader toggle={this.props.hideReg}>{l['Sign Up']}</ModalHeader>
-                    <ModalBody>
-                        <RegistrationForm/>
-                    </ModalBody>
-                </Modal>
-            </Nav>
+            <Fragment>
+                <Button className={classes.button} variant="contained" color="primary" onClick={this.props.showAuth}>
+                    {l['Log In']}
+                </Button>
+                <Button className={classes.button} variant="contained" color="secondary" onClick={this.props.showReg}>
+                    {l['Sign Up']}
+                </Button>
+            </Fragment>
         );
     }
 }
 
-export default connect(
+export default withStyles(styles)(connect(
     state => ({
         l: state.lng._,
         auth: state.auth
     }),
     dispatch => bindActionCreators({
         showAuth,
-        hideAuth,
         showReg,
-        hideReg,
         logOut,
         toMyTests: ()=>push('/my/tests'),
     }, dispatch)
-)(TopMenuAuth);
+)(TopMenuAuth));

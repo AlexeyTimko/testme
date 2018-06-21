@@ -1,67 +1,133 @@
 import React, {Component} from 'react';
 import {Link, withRouter} from "react-router-dom";
-import {
-    Collapse, DropdownItem, DropdownMenu, DropdownToggle, Nav,
-    Navbar,
-    NavbarToggler,
-    NavItem,
-    UncontrolledDropdown
-} from "reactstrap";
-import FA from 'react-fontawesome';
 import {connect} from "react-redux";
 import {setLanguage} from "../actions";
 import {bindActionCreators} from "redux";
-import {TopMenuAuth} from "./";
+import {TopMenuAuth, LeftMenu} from "./";
+import {withStyles} from "@material-ui/core";
+import {
+    AppBar, Button, Drawer, Hidden, IconButton, Menu, MenuItem, Toolbar, Tooltip
+} from "@material-ui/core/es/index";
+import {Home, Language, MoreVert} from "@material-ui/icons/es/index";
+
+const styles = {
+    root: {
+        flexGrow: 1,
+    },
+    toolbar: {
+        display: 'flex',
+        justifyContent: 'space-between',
+    },
+    menu: {
+        display: 'flex',
+        alignItems: 'center'
+    },
+    list: {
+        width: 250,
+    },
+};
 
 class TopMenu extends Component{
-    state = {
-        isOpen: false
-    };
-    toggle = () => this.setState({
+    constructor(props){
+        super(props);
+        this.state = {
+            menu: false,
+            languageMenu: null
+        };
+    }
+
+    languageMenuOpen = event => this.setState({
         ...this.state,
-        isOpen: !this.state.isOpen
+        languageMenu: event.currentTarget
     });
+
+    languageMenuClose = event => this.setState({
+        ...this.state,
+        languageMenu: null
+    });
+
+    setLanguage = locale => {
+        this.languageMenuClose();
+        this.props.setLanguage(locale);
+    };
+
+    menuToggle = () => this.setState({
+        ...this.state,
+        menu: !this.state.menu
+    });
+
     render(){
-        const l = this.props.lng._;
+        const {lng, classes} = this.props;
+        const l = lng._;
+        const {languageMenu, menu} = this.state;
         return (
-            <Navbar color="light" light expand="md" sticky="top">
-                <Link to="/" className="navbar-brand text-danger">TestMe</Link>
-                <NavbarToggler onClick={this.toggle} >
-                    <FA name="ellipsis-v"/>
-                </NavbarToggler>
-                <Collapse isOpen={this.state.isOpen} navbar>
-                    <Nav navbar>
-                        <NavItem>
-                            <Link to="/tests" className="nav-link">{l.Tests}</Link>
-                        </NavItem>
-                    </Nav>
-                    <TopMenuAuth/>
-                    <Nav navbar>
-                        <UncontrolledDropdown nav inNavbar>
-                            <DropdownToggle nav caret>
-                                {l.Language}
-                            </DropdownToggle>
-                            <DropdownMenu right>
-                                <DropdownItem onClick={() => this.props.setLanguage('en')} active={this.props.lng.locale === 'en'}>
-                                    {l.english}
-                                </DropdownItem>
-                                <DropdownItem onClick={() => this.props.setLanguage('ru')} active={this.props.lng.locale === 'ru'}>
-                                    {l.russian}
-                                </DropdownItem>
-                            </DropdownMenu>
-                        </UncontrolledDropdown>
-                    </Nav>
-                </Collapse>
-            </Navbar>
-        )
+            <div className={classes.root}>
+                <AppBar position="static" color="secondary">
+                    <Toolbar className={classes.toolbar}>
+                        <div className={classes.menu}>
+                            <Tooltip title={l['Home']}>
+                                <IconButton component={Link} to="/" color="inherit">
+                                    <Home />
+                                </IconButton>
+                            </Tooltip>
+                            <Hidden xsDown={true}>
+                                <Button component={Link} to="/tests" color="inherit">
+                                    {l['Tests']}
+                                </Button>
+                            </Hidden>
+                        </div>
+                        <div className={classes.menu}>
+                            <Hidden xsDown={true}>
+                                <TopMenuAuth/>
+                                <Tooltip title={l['Language']}>
+                                    <IconButton color="inherit" onClick={this.languageMenuOpen}>
+                                        <Language />
+                                    </IconButton>
+                                </Tooltip>
+                                <Menu anchorEl={languageMenu}
+                                      open={!!languageMenu}
+                                      onClose={this.languageMenuClose}
+                                >
+                                    <MenuItem
+                                        selected={lng.locale === 'en'}
+                                        onClick={() => this.setLanguage('en')}
+                                    >
+                                        {l['english']}
+                                    </MenuItem>
+                                    <MenuItem
+                                        selected={lng.locale === 'ru'}
+                                        onClick={() => this.setLanguage('ru')}
+                                    >
+                                        {l['russian']}
+                                    </MenuItem>
+                                </Menu>
+                            </Hidden>
+                            <Hidden smUp={true}>
+                                <IconButton onClick={this.menuToggle} color="inherit" aria-label="Menu">
+                                    <MoreVert />
+                                </IconButton>
+                            </Hidden>
+                        </div>
+                    </Toolbar>
+                </AppBar>
+                <Drawer open={menu} onClose={this.menuToggle}>
+                    <div
+                        tabIndex={0}
+                        role="button"
+                    >
+                        <LeftMenu close={this.menuToggle}/>
+                    </div>
+                </Drawer>
+            </div>
+        );
     }
 }
 
-export default withRouter(connect(
+export default withStyles(styles)(withRouter(connect(
     state => ({
         lng: state.lng
     }),
     dispatch => bindActionCreators({
         setLanguage
     }, dispatch)
-)(TopMenu));
+)(TopMenu)));

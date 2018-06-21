@@ -11,6 +11,7 @@ import {bindActionCreators} from "redux";
 import {toggleFM} from "./actions";
 import {FlashMessage} from "./components";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import AuthModals from './auth/components/modals';
 
 class App extends Component{
     render(){
@@ -20,6 +21,7 @@ class App extends Component{
                 <CssBaseline />
                 <FlashMessage show={fm.show} color={fm.color} toggle={this.props.toggleFM}>{l[fm.message]||fm.message}</FlashMessage>
                 <TopMenu/>
+                <AuthModals/>
                 <main>
                     <Route exact path="/" component={Home} />
                     <Route exact path="/my/tests" component={MyTests} />

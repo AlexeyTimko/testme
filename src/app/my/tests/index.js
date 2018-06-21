@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {Container} from "reactstrap";
@@ -9,6 +9,7 @@ import {editFormClose, editFormOpen, resetTest} from "../../tests/actions";
 import {push} from 'react-router-redux';
 import AddIcon from '@material-ui/icons/Add';
 import {Tooltip, Button} from "@material-ui/core";
+import {Search} from "../../components/index";
 
 class MyTests extends Component {
     constructor(props) {
@@ -36,7 +37,7 @@ class MyTests extends Component {
             this.props.goTests();
         }
         return (
-            <Container>
+            <Container className="mt-2">
                 {!editForm.visible &&
                 <Tooltip title={l['Add new test']}>
                     <Button variant="fab" color="secondary" aria-label="add" onClick={this.editFormOpen}
@@ -51,7 +52,10 @@ class MyTests extends Component {
                 }
                 {
                     (!editForm.visible) ? (
-                        <TestList onEdit={this.editFormOpen} my/>
+                        <Fragment>
+                            <Search/>
+                            <TestList onEdit={this.editFormOpen} my/>
+                        </Fragment>
                     ) : (
                         <TestEditForm testId={editForm.id} visible={editForm.visible} close={this.editFormClose}/>
                     )

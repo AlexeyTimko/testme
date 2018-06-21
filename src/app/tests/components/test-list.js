@@ -1,21 +1,16 @@
 import React, {Component} from 'react';
-import {Card, CardBody, CardHeader, CardText} from "reactstrap";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {deleteTest, getTestList, nextPage} from "../actions";
-import {Link, withRouter} from "react-router-dom";
 import {ConfirmDialog} from '../../components';
-import config from '../../config';
-import {Paper} from "@material-ui/core";
-import {Edit, Remove} from "@material-ui/icons";
-import {IconButton, Tooltip} from "@material-ui/core";
+import TestListItem from './test-list-item';
 
 class TestList extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.GAP = 200;
         let params = {};
-        if(props.auth.user && props.hasOwnProperty('my')){
+        if (props.auth.user && props.hasOwnProperty('my')) {
             params.user = props.auth.user.id
         }
         this.state = {
@@ -27,6 +22,7 @@ class TestList extends Component {
         };
         this.props.getTestList(params);
     }
+
     componentDidMount = () => {
         window.addEventListener('scroll', this.handleScroll, false);
     };
@@ -34,10 +30,10 @@ class TestList extends Component {
         window.removeEventListener('scroll', this.handleScroll, false);
     };
     handleScroll = () => {
-        const { rootRef } = this;
-        const { innerHeight, scrollY } = window;
-        const { offsetTop, scrollHeight } = rootRef;
-        const { page, nextPage } = this.props;
+        const {rootRef} = this;
+        const {innerHeight, scrollY} = window;
+        const {offsetTop, scrollHeight} = rootRef;
+        const {page, nextPage} = this.props;
         if (
             innerHeight + scrollY > (offsetTop + scrollHeight) - this.GAP &&
             !page.lastPage &&
@@ -58,12 +54,12 @@ class TestList extends Component {
     };
     confirmDelete = () => {
         const {i} = this.state.confirm;
-        if(i === null) return;
+        if (i === null) return;
         let params = {
             id: this.props.list[i].id,
             token: this.props.auth.token
         };
-        if(this.props.auth.user && this.props.hasOwnProperty('my')){
+        if (this.props.auth.user && this.props.hasOwnProperty('my')) {
             params.user = this.props.auth.user.id
         }
 
@@ -94,64 +90,29 @@ class TestList extends Component {
             open: false
         }
     });
-    render(){
-        const {list, auth, l} = this.props;
+
+    render() {
+        const {list, l} = this.props;
         const {confirm} = this.state;
         return list.length ? (
-            <Paper ref={this.setRootRef} style={{padding: '1rem'}} elevation={4}>
-                <ConfirmDialog open={confirm.open} close={this.closeConfirm} confirm={this.confirmDelete} title={l['Confirm action']} >
+            <div ref={this.setRootRef}>
+                <ConfirmDialog open={confirm.open} close={this.closeConfirm} confirm={this.confirmDelete}
+                               title={l['Confirm action']}>
                     {`${l['Are you sure?']}`}
                     <br/>
                     {`${l['Delete']} - "${confirm.i === null || list[confirm.i].name}"?`}
                 </ConfirmDialog>
                 {
                     list.map((test, i) => (
-                        <Card key={i} className="mb-3">
-                            <CardHeader style={{
-                                display: 'flex',
-                                alignItems: 'baseline',
-                                justifyContent: 'space-between',
-                            }}>
-                                <Link to={`/tests/${test.id}`}>{test.name}</Link>
-                                {
-                                    (auth.user && test.user === auth.user.id)
-                                        ? (
-                                            <span>
-                                                <Tooltip title={l['Edit']}>
-                                                    <IconButton mini color="primary" onClick={() => this.edit(i)}>
-                                                        <Edit />
-                                                    </IconButton>
-                                                </Tooltip>
-                                                <Tooltip title={l['Delete']}>
-                                                    <IconButton mini color="secondary" onClick={() => this.deleteTest(i)}>
-                                                        <Remove />
-                                                    </IconButton>
-                                                </Tooltip>
-                                            </span>
-                                        ) : null
-                                }
-                            </CardHeader>
-                            <CardBody>
-                                <CardText className="text-justify clearfix" style={{textIndent: "1rem"}}>
-                                    {
-                                        test.image
-                                            ?(
-                                                <img width="20%" className="mr-2 mb-2 pull-left" src={`${config.host}/img/${test.image}`} alt={test.name} />
-                                            )
-                                            :null
-                                    }
-                                    {test.description}
-                                </CardText>
-                            </CardBody>
-                        </Card>
+                        <TestListItem test={test} key={i} i={i} edit={this.edit} deleteTest={this.deleteTest}/>
                     ))
                 }
-            </Paper>
+            </div>
         ) : null;
     }
 }
 
-export default withRouter(connect(
+export default connect(
     state => ({
         l: state.lng._,
         list: state.tests,
@@ -163,4 +124,4 @@ export default withRouter(connect(
         deleteTest,
         nextPage,
     }, dispatch)
-)(TestList));
+)(TestList);
