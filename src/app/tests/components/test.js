@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {answerTest, loadTest} from "../actions";
 import {bindActionCreators} from "redux";
-import {Alert, Button, Card, CardBody, CardImg, CardText, CardTitle, Col, Container, Row} from "reactstrap";
+import {Alert, Button, Card, CardBody, CardImg, CardText, CardTitle} from "reactstrap";
 import FA from 'react-fontawesome';
 import Question from "./question";
 import Result from "./result";
@@ -18,8 +18,8 @@ class Test extends Component {
             question: null,
             questions: []
         };
-        if (props.match.params.id) {
-            props.loadTest(props.match.params.id);
+        if (props.hasOwnProperty('id')) {
+            props.loadTest(props.id);
         }
     }
 
@@ -84,50 +84,39 @@ class Test extends Component {
 
     render() {
         const {l, test} = this.props;
-        return (
-            <Container className="container-fluid">
-                <Row>
-                    <Col sm={{size: 6, offset: 3}}>
-
+        return this.state.finished ? (<Result onRestart={this.restart}/>) :
+            this.state.question !== null ? (
+                    <div className="mt-2">
+                        <Timer timeout={test.timelimit} onFinish={this.finish}>{l['Time left']}</Timer>
+                        <Question test={test} item={test.questions[this.state.question]}
+                                  onAnswer={this.answer}/>
+                    </div>
+                ) :
+                test.id ? (
+                    <Card className="mt-2">
                         {
-                            this.state.finished ? (<Result onRestart={this.restart}/>) :
-                                this.state.question !== null ? (
-                                    <div className="mt-2">
-                                        <Timer timeout={test.timelimit} onFinish={this.finish}>{l['Time left']}</Timer>
-                                        <Question test={test} item={test.questions[this.state.question]}
-                                                  onAnswer={this.answer}/>
-                                    </div>
-                                    ) :
-                                    test.id ? (
-                                        <Card className="mt-2">
-                                            {
-                                                test.image
-                                                    ? (
-                                                        <CardImg top src={`${config.host}/img/${test.image}`}
-                                                                 alt={test.name}/>
-                                                    )
-                                                    : null
-                                            }
-                                            <CardBody>
-                                                <CardTitle>{test.name}</CardTitle>
-                                                <CardText className="text-justify clearfix"
-                                                          style={{textIndent: "1rem"}}>
-                                                    {test.description}
-                                                </CardText>
-                                                <CardText className="text-center">
-                                                    <Button color="info" size="lg" onClick={this.start}>
-                                                        <FA name="forward"/>{' '}
-                                                        {l['Start test']}
-                                                    </Button>
-                                                </CardText>
-                                            </CardBody>
-                                        </Card>
-                                    ) : test === '' ? (<Alert color="warning">{l['Test not found']}</Alert>) : null
+                            test.image
+                                ? (
+                                    <CardImg top src={`${config.host}/img/${test.image}`}
+                                             alt={test.name}/>
+                                )
+                                : null
                         }
-                    </Col>
-                </Row>
-            </Container>
-        )
+                        <CardBody>
+                            <CardTitle>{test.name}</CardTitle>
+                            <CardText className="text-justify clearfix"
+                                      style={{textIndent: "1rem"}}>
+                                {test.description}
+                            </CardText>
+                            <CardText className="text-center">
+                                <Button color="info" size="lg" onClick={this.start}>
+                                    <FA name="forward"/>{' '}
+                                    {l['Start test']}
+                                </Button>
+                            </CardText>
+                        </CardBody>
+                    </Card>
+                ) : test === '' ? (<Alert color="warning">{l['Test not found']}</Alert>) : null
     }
 }
 

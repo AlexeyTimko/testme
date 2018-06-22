@@ -16,6 +16,11 @@ class Tests extends Component {
         this.props.editFormClose();
         this.props.resetTest();
     };
+
+    componentWillMount = () => {
+        this.editFormClose();
+    };
+
     render() {
         const {editForm} = this.props;
         return (

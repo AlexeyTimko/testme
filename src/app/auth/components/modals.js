@@ -2,27 +2,33 @@ import React, {Component, Fragment} from 'react';
 import {hideAuth, hideReg} from "../actions";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import {Modal, ModalBody, ModalHeader} from "reactstrap";
 import AuthForm from './forms/auth';
 import RegistrationForm from './forms/registration';
+import {Dialog, DialogTitle} from "@material-ui/core";
 
 class AuthModals extends Component {
     render() {
         const {auth, l, hideAuth, hideReg} = this.props;
         return (
             <Fragment>
-                <Modal isOpen={auth.authShow} toggle={hideAuth}>
-                    <ModalHeader toggle={hideAuth}>{l['Log In']}</ModalHeader>
-                    <ModalBody>
-                        <AuthForm/>
-                    </ModalBody>
-                </Modal>
-                <Modal isOpen={auth.regShow} toggle={hideReg}>
-                    <ModalHeader toggle={hideReg}>{l['Sign Up']}</ModalHeader>
-                    <ModalBody>
-                        <RegistrationForm/>
-                    </ModalBody>
-                </Modal>
+                <Dialog
+                    open={auth.authShow}
+                    onClose={hideAuth}
+                    disableEnforceFocus
+                    aria-labelledby="auth-title"
+                >
+                    <DialogTitle id="auth-title">{l['Log In']}</DialogTitle>
+                    <AuthForm close={hideAuth}/>
+                </Dialog>
+                <Dialog
+                    open={auth.regShow}
+                    onClose={hideReg}
+                    disableEnforceFocus
+                    aria-labelledby="reg-title"
+                >
+                    <DialogTitle id="reg-title">{l['Sign Up']}</DialogTitle>
+                    <RegistrationForm close={hideReg}/>
+                </Dialog>
             </Fragment>
         );
     }

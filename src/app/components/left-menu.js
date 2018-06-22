@@ -1,14 +1,14 @@
 import React, {Component, Fragment} from 'react';
 import {
     Collapse, Divider, List, ListItem, ListItemIcon, ListItemText
-} from "@material-ui/core/es/index";
-import withStyles from "@material-ui/core/es/styles/withStyles";
+} from "@material-ui/core";
+import withStyles from "@material-ui/core/styles/withStyles";
 import {Link, withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import {
     ExpandLess, ExpandMore, Home, Language, LibraryBooks, PlaylistAddCheck,
     Star
-} from "@material-ui/icons/es/index";
+} from "@material-ui/icons";
 import {bindActionCreators} from "redux";
 import {setLanguage} from "../actions";
 import {logOut, showAuth, showReg} from "../auth/actions";

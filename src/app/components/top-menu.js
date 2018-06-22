@@ -7,8 +7,8 @@ import {TopMenuAuth, LeftMenu} from "./";
 import {withStyles} from "@material-ui/core";
 import {
     AppBar, Button, Drawer, Hidden, IconButton, Menu, MenuItem, Toolbar, Tooltip
-} from "@material-ui/core/es/index";
-import {Home, Language, MoreVert} from "@material-ui/icons/es/index";
+} from "@material-ui/core";
+import {Home, Language, MoreVert} from "@material-ui/icons";
 
 const styles = {
     root: {

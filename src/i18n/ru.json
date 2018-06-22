@@ -54,5 +54,8 @@
   "Are you sure?": "Вы уверены?",
   "This param shows question difficulty. It will be used when calculate result.": "Этот параметр показывает сложность вопроса. Он будет использоваться при вычислении результата.",
   "Yes": "Да",
-  "Confirm action": "Подтвердите действие"
+  "Confirm action": "Подтвердите действие",
+  "Online test maker": "Онлайн создание тестов",
+  "New Tests": "Новые тесты",
+  "Random test": "Случайный тест"
 }

@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {register} from "../../actions";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import {Button, Col, FormGroup, Input, Label} from "reactstrap";
+import {Button, DialogActions, DialogContent, TextField} from "@material-ui/core";
 
 class RegistrationForm extends Component{
     state = {
@@ -82,41 +82,53 @@ class RegistrationForm extends Component{
         }
     };
     render(){
-        const {l} = this.props;
+        const {l, close} = this.props;
         return(
-            <div>
-                <FormGroup row>
-                    <Label for="regUserEmail" sm={3}>Email</Label>
-                    <Col sm={9}>
-                        <Input name="email" id="regUserEmail" placeholder="you@site.com"
-                               valid={this.state.email.valid}
-                               invalid={this.state.email.valid !== null && !this.state.email.valid}
-                               value={this.state.email.value} onChange={this.changeHandler}
-                               onKeyPress={this.keyPressHandler}/>
-                    </Col>
-                </FormGroup>
-                <FormGroup row>
-                    <Label for="regUserPassword" sm={3}>{l['Password']}</Label>
-                    <Col sm={9}>
-                        <Input name="password" id="regUserPassword" type="password"
-                               valid={this.state.password.valid}
-                               invalid={this.state.password.valid !== null && !this.state.password.valid}
-                               value={this.state.password.value} onChange={this.changeHandler}
-                               onKeyPress={this.keyPressHandler}/>
-                    </Col>
-                </FormGroup>
-                <FormGroup row>
-                    <Label for="regUserPasswordConfirm" sm={3}>{l['Confirm password']}</Label>
-                    <Col sm={9}>
-                        <Input name="passwordConfirm" id="regUserPasswordConfirm" type="password"
-                               valid={this.state.passwordConfirm.valid}
-                               invalid={this.state.passwordConfirm.valid !== null && !this.state.passwordConfirm.valid}
-                               value={this.state.passwordConfirm.value} onChange={this.changeHandler}
-                               onKeyPress={this.keyPressHandler}/>
-                    </Col>
-                </FormGroup>
-                <Button color="primary" className="mr-auto" onClick={this.register}>{l['Register']}</Button>
-            </div>
+            <Fragment>
+                <DialogContent>
+                    <TextField
+                        error={this.state.email.valid !== null && !this.state.email.valid}
+                        id="userEmail"
+                        label="Email"
+                        name="email"
+                        placeholder="you@site.com"
+                        margin="normal"
+                        fullWidth
+                        value={this.state.email.value} onChange={this.changeHandler}
+                        onKeyPress={this.keyPressHandler}
+                    />
+                    <TextField
+                        error={this.state.password.valid !== null && !this.state.password.valid}
+                        type="password"
+                        id="userPassword"
+                        label={l['Password']}
+                        name="password"
+                        margin="normal"
+                        fullWidth
+                        value={this.state.password.value} onChange={this.changeHandler}
+                        onKeyPress={this.keyPressHandler}
+                    />
+                    <TextField
+                        error={this.state.passwordConfirm.valid !== null && !this.state.passwordConfirm.valid}
+                        type="password"
+                        id="regUserPasswordConfirm"
+                        label={l['Confirm password']}
+                        name="passwordConfirm"
+                        margin="normal"
+                        fullWidth
+                        value={this.state.passwordConfirm.value} onChange={this.changeHandler}
+                        onKeyPress={this.keyPressHandler}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={close} color="secondary">
+                        {l['Cancel']}
+                    </Button>
+                    <Button onClick={this.register} color="primary">
+                        {l['Enter']}
+                    </Button>
+                </DialogActions>
+            </Fragment>
         )
     }
 }

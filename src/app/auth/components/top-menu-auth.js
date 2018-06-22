@@ -3,18 +3,18 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {logOut, showAuth, showReg} from "../actions";
 import { push } from 'react-router-redux';
-import {Avatar, Button, ListItemIcon, ListItemText, Menu, MenuItem, withStyles} from "@material-ui/core/es/index";
+import {Avatar, Button, ListItemIcon, ListItemText, Menu, MenuItem, withStyles} from "@material-ui/core";
 import {deepPurple} from "@material-ui/core/colors";
-import {LibraryBooks} from "@material-ui/icons/es/index";
+import {LibraryBooks} from "@material-ui/icons";
 
 const styles = theme => ({
     button: {
         margin: theme.spacing.unit
     },
-    purpleAvatar: {
+    avatar: {
         margin: 10,
         color: '#fff',
-        backgroundColor: deepPurple[500],
+        backgroundColor: deepPurple[200],
         cursor: 'pointer'
     }
 });
@@ -41,7 +41,7 @@ class TopMenuAuth extends Component{
         const {menu} = this.state;
         return auth.user ? (
             <Fragment>
-                <Avatar className={classes.purpleAvatar} onClick={this.menuOpen}>
+                <Avatar className={classes.avatar} onClick={this.menuOpen}>
                     {auth.user.email[0].toUpperCase()}
                 </Avatar>
                 <Menu anchorEl={menu}

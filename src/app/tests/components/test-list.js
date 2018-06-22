@@ -9,9 +9,14 @@ class TestList extends Component {
     constructor(props) {
         super(props);
         this.GAP = 200;
-        let params = {};
+        let params = {
+            new: false
+        };
         if (props.auth.user && props.hasOwnProperty('my')) {
             params.user = props.auth.user.id
+        }
+        if (props.hasOwnProperty('new')) {
+            params.new = true
         }
         this.state = {
             params,
@@ -24,10 +29,14 @@ class TestList extends Component {
     }
 
     componentDidMount = () => {
-        window.addEventListener('scroll', this.handleScroll, false);
+        if (!this.state.params.new) {
+            window.addEventListener('scroll', this.handleScroll, false);
+        }
     };
     componentWillUnmount = () => {
-        window.removeEventListener('scroll', this.handleScroll, false);
+        if (!this.state.params.new) {
+            window.removeEventListener('scroll', this.handleScroll, false);
+        }
     };
     handleScroll = () => {
         const {rootRef} = this;
@@ -93,7 +102,7 @@ class TestList extends Component {
 
     render() {
         const {list, l} = this.props;
-        const {confirm} = this.state;
+        const {confirm, params} = this.state;
         return list.length ? (
             <div ref={this.setRootRef}>
                 <ConfirmDialog open={confirm.open} close={this.closeConfirm} confirm={this.confirmDelete}
@@ -104,7 +113,8 @@ class TestList extends Component {
                 </ConfirmDialog>
                 {
                     list.map((test, i) => (
-                        <TestListItem test={test} key={i} i={i} edit={this.edit} deleteTest={this.deleteTest}/>
+                        <TestListItem test={test} key={i} i={i} editable={!params.new}
+                                      edit={this.edit} deleteTest={this.deleteTest}/>
                     ))
                 }
             </div>

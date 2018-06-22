@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Home from './home';
 import Tests from './tests';
-import Test from  './tests/components/test';
+import TestPage from  './tests/components/test-page';
 import MyTests from  './my/tests';
 import './App.css';
 import {Route, withRouter} from "react-router-dom";
@@ -12,12 +12,21 @@ import {toggleFM} from "./actions";
 import {FlashMessage} from "./components";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AuthModals from './auth/components/modals';
+import {createMuiTheme, MuiThemeProvider} from "@material-ui/core/styles";
+import {blue, blueGrey} from "@material-ui/core/colors";
+
+const theme = createMuiTheme({
+    palette: {
+        primary: blue,
+        secondary: blueGrey,
+    },
+});
 
 class App extends Component{
     render(){
         const {fm, l} = this.props;
         return (
-            <div className="container-fluid">
+            <MuiThemeProvider theme={theme}>
                 <CssBaseline />
                 <FlashMessage show={fm.show} color={fm.color} toggle={this.props.toggleFM}>{l[fm.message]||fm.message}</FlashMessage>
                 <TopMenu/>
@@ -26,9 +35,9 @@ class App extends Component{
                     <Route exact path="/" component={Home} />
                     <Route exact path="/my/tests" component={MyTests} />
                     <Route exact path="/tests" component={Tests} />
-                    <Route path="/tests/:id" component={Test} />
+                    <Route path="/tests/:id" component={TestPage} />
                 </main>
-            </div>
+            </MuiThemeProvider>
         )
     }
 }

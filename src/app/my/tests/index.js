@@ -31,6 +31,10 @@ class MyTests extends Component {
         this.props.resetTest();
     };
 
+    componentWillMount = () => {
+        this.editFormClose();
+    };
+
     render() {
         const {l, auth, editForm} = this.props;
         if (!auth.user) {

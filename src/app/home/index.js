@@ -1,71 +1,69 @@
 import React, {Component} from 'react';
-import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Button } from "reactstrap";
-import {openFM} from "../actions";
-import * as icons from '@material-ui/icons';
-import {Grid, Input, Paper} from "@material-ui/core";
+import {Button, Grid, Paper, Typography, withStyles} from "@material-ui/core";
+import {lightBlue, blueGrey} from "@material-ui/core/colors";
+import TestList from '../tests/components/test-list';
+import Test from '../tests/components/test';
+import {editFormOpen} from "../tests/actions";
+import {Link, withRouter} from "react-router-dom";
+
+const styles = theme => ({
+    blockTop: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        minHeight: 200,
+        backgroundColor: lightBlue[100],
+        color: blueGrey[600],
+        marginBottom: theme.spacing.unit * 2
+    },
+    paper: {
+        padding: theme.spacing.unit * 2,
+        marginBottom: theme.spacing.unit * 2
+    }
+});
 
 class Home extends Component {
-    state = {
-        modal: false,
-        search: ''
-    };
-    renderIcons = () => {
-        let iconsArr = [];
-        for (let icon in icons){
-            if(icon.toLowerCase().indexOf(this.state.search.toLowerCase()) < 0) continue;
-            const Icon = icons[icon];
-            iconsArr.push((
-                <Grid item xs key={icon}>
-                    <Paper className={'p-3 text-center'}>
-                        <Icon color="primary"/><br/>
-                        {icon}
+    render() {
+        const {l, classes, editFormOpen} = this.props;
+        return (
+            <Grid container justify="space-around">
+                <Grid item xs={12} className={classes.blockTop}>
+                    <Typography variant="display2" gutterBottom>
+                        {l['Online test maker']}
+                    </Typography>
+                </Grid>
+                <Grid item xs={12} md={5}>
+                    <Paper className={classes.paper} elevation={4} square>
+                        <Typography variant="display1" gutterBottom>
+                            {l['New Tests']}
+                        </Typography>
+                        <TestList new/>
                     </Paper>
                 </Grid>
-            ));
-        }
-        return iconsArr;
-    };
-    render() {
-        return (
-            <div>
-                <h1>Home</h1>
-                <p>Welcome home!</p>
-                <Button color="primary" onClick={() => this.props.changePage()}>Go to test page via redux</Button>
-                <hr/>
-                <Button color="warning mr-3" onClick={()=>this.props.openFM('warning', 'warning flash message')}>alert</Button>
-                <Button color="info mr-3" onClick={()=>this.props.openFM('info', 'info flash message')}>alert</Button>
-                <Button color="success mr-3" onClick={()=>this.props.openFM('success', 'success flash message')}>alert</Button>
-                <Button color="danger" onClick={()=>this.props.openFM('danger', 'danger flash message')}>alert</Button>
-                <br/>
-                <Paper style={{
-                    padding: '1rem',
-                    margin: '.5rem auto',
-                    textAlign: 'center',
-                    width: '50%',
-                }}>
-                    <Input onChange={event=>this.setState({
-                        ...this.state,
-                        search: event.target.value
-                    })} value={this.state.search} placeholder={this.props.l['Search']}/>
-                </Paper>
-                <Grid container spacing={8} className={'m-2'}>
-                    {this.renderIcons()}
+                <Grid item xs={12} md={5}>
+                    <Paper className={classes.paper} elevation={4} square>
+                        <Typography variant="display1" gutterBottom>
+                            {l['Random test']}
+                        </Typography>
+                        <Test id={0}/>
+                    </Paper>
                 </Grid>
-            </div>
+                <Grid item xs={12} className={classes.blockTop}>
+                    <Button component={Link} to="/my/tests" onClick={editFormOpen} size="large" variant="outlined" color={'primary'}>{l['Add new test']}</Button>
+                </Grid>
+            </Grid>
         );
     }
 }
-const mapDispatchToProps = dispatch => bindActionCreators({
-    changePage: () => push('/tests'),
-    openFM
-}, dispatch);
 
-export default connect(
+export default withRouter(withStyles(styles)(connect(
     state => ({
-        l: state.lng._
+        l: state.lng._,
+        auth: state.auth
     }),
-    mapDispatchToProps
-)(Home);
+    dispatch => bindActionCreators({
+        editFormOpen
+    }, dispatch)
+)(Home)));

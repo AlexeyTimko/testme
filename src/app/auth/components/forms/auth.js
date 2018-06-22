@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
-import {Button, Col, FormGroup, Input, Label} from "reactstrap";
+import React, {Component, Fragment} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {logIn} from "../../actions";
+import {Button, DialogActions, DialogContent, TextField} from "@material-ui/core";
 
 class AuthForm extends Component {
     state = {
@@ -66,31 +66,42 @@ class AuthForm extends Component {
         }
     };
     render(){
-        const {l} = this.props;
+        const {l, close} = this.props;
         return (
-            <div>
-                <FormGroup row>
-                    <Label for="userEmail" sm={3}>Email</Label>
-                    <Col sm={9}>
-                        <Input name="email" id="userEmail" placeholder="you@site.com"
-                               valid={this.state.email.valid}
-                               invalid={this.state.email.valid !== null && !this.state.email.valid}
-                               value={this.state.email.value} onChange={this.changeHandler}
-                               onKeyPress={this.keyPressHandler}/>
-                    </Col>
-                </FormGroup>
-                <FormGroup row>
-                    <Label for="userPassword" sm={3}>{l['Password']}</Label>
-                    <Col sm={9}>
-                        <Input name="password" id="userPassword" type="password"
-                               valid={this.state.password.valid}
-                               invalid={this.state.password.valid !== null && !this.state.password.valid}
-                               value={this.state.password.value} onChange={this.changeHandler}
-                               onKeyPress={this.keyPressHandler}/>
-                    </Col>
-                </FormGroup>
-                <Button color="primary" className="mr-auto" onClick={this.auth}>{l['Enter']}</Button>
-            </div>
+            <Fragment>
+                <DialogContent>
+                    <TextField
+                        error={this.state.email.valid !== null && !this.state.email.valid}
+                        id="userEmail"
+                        label="Email"
+                        name="email"
+                        placeholder="you@site.com"
+                        margin="normal"
+                        fullWidth
+                        value={this.state.email.value} onChange={this.changeHandler}
+                        onKeyPress={this.keyPressHandler}
+                    />
+                    <TextField
+                        error={this.state.password.valid !== null && !this.state.password.valid}
+                        type="password"
+                        id="userPassword"
+                        label={l['Password']}
+                        name="password"
+                        margin="normal"
+                        fullWidth
+                        value={this.state.password.value} onChange={this.changeHandler}
+                        onKeyPress={this.keyPressHandler}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={close} color="secondary">
+                        {l['Cancel']}
+                    </Button>
+                    <Button onClick={this.auth} color="primary">
+                        {l['Enter']}
+                    </Button>
+                </DialogActions>
+            </Fragment>
         );
     }
 }

@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {Card, CardContent, CardMedia, Hidden, IconButton, Tooltip, Typography} from "@material-ui/core";
 import {Link, withRouter} from "react-router-dom";
 import config from '../../config';
-import {Edit, Remove} from "@material-ui/icons/es/index";
+import {Edit, Remove} from "@material-ui/icons";
 
 const styles = theme => ({
     card: {
@@ -34,14 +34,14 @@ const styles = theme => ({
 
 class TestListItem extends Component {
     render() {
-        const {classes, l, test, auth, i, edit, deleteTest} = this.props;
+        const {classes, l, test, auth, i, edit, deleteTest, editable} = this.props;
         return (
             <Card className={classes.card}>
                 <CardContent className={classes.content}>
                     <Typography variant="title" className={classes.title}>
                         <Link to={`/tests/${test.id}`}>{test.name}</Link>
                         {
-                            (auth.user && test.user === auth.user.id)
+                            (editable && auth.user && test.user === auth.user.id)
                                 ? (
                                     <span>
                                         <Tooltip title={l['Edit']}>
