@@ -2,25 +2,27 @@ import React, {Component} from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {Button, Grid, Paper, Typography, withStyles} from "@material-ui/core";
-import {lightBlue, blueGrey} from "@material-ui/core/colors";
+import {brown, blueGrey, deepOrange} from "@material-ui/core/colors";
 import TestList from '../tests/components/test-list';
 import Test from '../tests/components/test';
 import {editFormOpen} from "../tests/actions";
 import {Link, withRouter} from "react-router-dom";
 
 const styles = theme => ({
+    root: {
+        backgroundColor: brown[100],
+    },
     blockTop: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-around',
         minHeight: 200,
-        backgroundColor: lightBlue[100],
-        color: blueGrey[600],
-        marginBottom: theme.spacing.unit * 2
+        backgroundColor: deepOrange[100],
+        color: blueGrey[600]
     },
     paper: {
         padding: theme.spacing.unit * 2,
-        marginBottom: theme.spacing.unit * 2
+        margin: theme.spacing.unit * 2
     }
 });
 
@@ -28,7 +30,7 @@ class Home extends Component {
     render() {
         const {l, classes, editFormOpen} = this.props;
         return (
-            <Grid container justify="space-around">
+            <Grid className={classes.root} container justify="space-around">
                 <Grid item xs={12} className={classes.blockTop}>
                     <Typography variant="display2" gutterBottom>
                         {l['Online test maker']}

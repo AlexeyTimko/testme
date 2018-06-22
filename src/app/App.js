@@ -13,36 +13,46 @@ import {FlashMessage} from "./components";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AuthModals from './auth/components/modals';
 import {createMuiTheme, MuiThemeProvider} from "@material-ui/core/styles";
-import {blue, blueGrey} from "@material-ui/core/colors";
+import {deepOrange, brown} from "@material-ui/core/colors";
+import withStyles from "@material-ui/core/styles/withStyles";
 
 const theme = createMuiTheme({
     palette: {
-        primary: blue,
-        secondary: blueGrey,
+        primary: deepOrange,
+        secondary: brown,
     },
 });
 
+const styles = {
+    root: {
+        backgroundColor: brown[100],
+        height: '100%'
+    }
+};
+
 class App extends Component{
     render(){
-        const {fm, l} = this.props;
+        const {fm, l, classes} = this.props;
         return (
             <MuiThemeProvider theme={theme}>
-                <CssBaseline />
-                <FlashMessage show={fm.show} color={fm.color} toggle={this.props.toggleFM}>{l[fm.message]||fm.message}</FlashMessage>
-                <TopMenu/>
-                <AuthModals/>
-                <main>
-                    <Route exact path="/" component={Home} />
-                    <Route exact path="/my/tests" component={MyTests} />
-                    <Route exact path="/tests" component={Tests} />
-                    <Route path="/tests/:id" component={TestPage} />
-                </main>
+                <div className={classes.root}>
+                    <CssBaseline />
+                    <FlashMessage show={fm.show} color={fm.color} toggle={this.props.toggleFM}>{l[fm.message]||fm.message}</FlashMessage>
+                    <TopMenu/>
+                    <AuthModals/>
+                    <main>
+                        <Route exact path="/" component={Home} />
+                        <Route exact path="/my/tests" component={MyTests} />
+                        <Route exact path="/tests" component={Tests} />
+                        <Route path="/tests/:id" component={TestPage} />
+                    </main>
+                </div>
             </MuiThemeProvider>
         )
     }
 }
 
-export default  withRouter(connect(
+export default  withStyles(styles)(withRouter(connect(
     state => ({
         fm: state.fm,
         l: state.lng._
@@ -50,4 +60,4 @@ export default  withRouter(connect(
     dispatch => bindActionCreators({
         toggleFM
     }, dispatch)
-)(App));
+)(App)));
