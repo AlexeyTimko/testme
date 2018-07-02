@@ -2,12 +2,17 @@ import {CLOSE_FLASH_MESSAGE, OPEN_FLASH_MESSAGE, SET_LANGUAGE, TOGGLE_FLASH_MESS
 import lang from '../i18n';
 
 export const setLanguage = locale => {
+    let payload = new Proxy({
+        ...lang['en'],
+        ...lang[locale]
+    }, {
+        get(lang, item){
+            return lang[item] || item;
+        }
+    });
     return {
         type: SET_LANGUAGE,
-        payload: {
-            ...lang['en'],
-            ...lang[locale]
-        },
+        payload,
         locale
     }
 };
